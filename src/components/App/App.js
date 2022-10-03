@@ -1,14 +1,16 @@
 import { Route, Switch } from 'react-router-dom';
+import styles from './App.module.css';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
+import Footer from '../Footer/Footer';
 
 function App() {
   return (
-    <div className="App">
+    <div className={styles.page}>
       <Switch>
         <Route path='/movies'>
           <Movies />
@@ -29,6 +31,7 @@ function App() {
           <Main />
         </Route>
       </Switch>
+      <Footer />
     </div>
   );
 }
