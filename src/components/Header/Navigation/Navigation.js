@@ -10,7 +10,6 @@ export default function Navigation({ authorized }) {
 
   return (
     <>
-      <Burger clicked={isOpen} handleClick={() => setIsOpen(!isOpen)} />
       {!authorized && <nav>
         <ul className='navigation__list-unauthorized'>
           <li>
@@ -20,11 +19,12 @@ export default function Navigation({ authorized }) {
           </li>
           <li>
             <Link className='navigation__signin' to='/signup'>
-              Вход
+              Войти
             </Link>
           </li>
         </ul>
       </nav>}
+      {authorized && <Burger clicked={isOpen} handleClick={() => setIsOpen(!isOpen)} />}
       {authorized &&
         <nav
           className={`navigation__nav-authorized ${isOpen ? 'navigation__nav-authorized_opened' : ''}`}

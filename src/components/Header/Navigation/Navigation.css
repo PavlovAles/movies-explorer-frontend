@@ -6,6 +6,12 @@
   list-style: none;
 }
 
+@media (max-width: 620px) {
+  .navigation__list-unauthorized {
+    gap: 14px;
+  }  
+}
+
 @media (max-width: 768px) {
   .navigation__nav-authorized {
     width: 520px;
@@ -49,6 +55,13 @@
   text-decoration: none;
 }
 
+@media (max-width: 380px) {
+  .navigation__signup {
+    font-size: 10px;
+    line-height: 1.6;
+  }  
+}
+
 .navigation__signin {
   padding: 8px 20px;
   font-size: 12px;
@@ -58,6 +71,14 @@
   text-decoration: none;
   background-color: var(--accent);
   border-radius: 3px;
+}
+
+@media (max-width: 380px) {
+  .navigation__signin {
+    padding: 4px 12px;
+    font-size: 10px;
+    line-height: 1.6;
+  }  
 }
 
 .navigation__list-authorized {
