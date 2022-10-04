@@ -7,10 +7,12 @@ import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
 
 function App() {
   return (
     <div className={styles.page}>
+      <Header authorized={true}/>
       <Switch>
         <Route path='/movies'>
           <Movies />
