@@ -1,5 +1,4 @@
 import { Route, Switch } from 'react-router-dom';
-import styles from './App.module.css';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
@@ -11,7 +10,7 @@ import Header from '../Header/Header';
 
 function App() {
   return (
-    <div className={styles.page}>
+    <div className='page'>
       <Header authorized={true}/>
       <Switch>
         <Route path='/movies'>

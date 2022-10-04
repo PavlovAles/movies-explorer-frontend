@@ -2,4 +2,9 @@
 
 @import url(./vendor/fonts/Inter/inter.css);
 
-@import url(./components/Header/Navigation/Navigation.css)
+@import url(./components/App/App.css);
+@import url(./components/Header/Header.css);
+@import url(./components/Header/Navigation/Navigation.css);
+@import url(./components/Header/Navigation/Burger/Burger.css);
+@import url(./components/Header/ProfileButton/ProfileButton.css);
+@import url(./components/Footer/Footer.css);
