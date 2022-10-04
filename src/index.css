@@ -1,3 +1,5 @@
 @import url(./vendor/normalize.css);
 
 @import url(./vendor/fonts/Inter/inter.css);
+
+@import url(./components/Header/Navigation/Navigation.css)

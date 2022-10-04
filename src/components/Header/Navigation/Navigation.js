@@ -1,49 +1,57 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import useWindowWidth from '../../../hooks/useWindowWidth';
 import ProfileButton from '../ProfileButton/ProfileButton';
 import Burger from './Burger/Burger';
-import styles from './Navigation.module.css';
 
 export default function Navigation({ authorized }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const windowWidth = useWindowWidth();
+
   return (
     <>
-      {/* <Burger /> */}
+      <Burger clicked={isOpen} handleClick={() => setIsOpen(!isOpen)} />
       {!authorized && <nav>
-        <ul className={styles['navigation__list-unauthorized']}>
+        <ul className='navigation__list-unauthorized'>
           <li>
-            <Link className={styles.navigation__signup} to='/signup'>
+            <Link className='navigation__signup' to='/signup'>
               Регистрация
             </Link>
           </li>
           <li>
-            <Link className={styles.navigation__signin} to='/signup'>
+            <Link className='navigation__signin' to='/signup'>
               Вход
             </Link>
           </li>
         </ul>
       </nav>}
-      {authorized && <nav className={styles['navigation__nav-authorized']}>
-        <ul className={styles['navigation__list-authorized']}>
-          {/* <li>
-            <Link className={styles.navigation__link} to='/'>
-              Главная
-            </Link>
-          </li> */}
-          <li>
-            <Link className={styles.navigation__movies} to='/movies'>
-              Фильмы
-            </Link>
-          </li>
-          <li>
-            <Link className={styles['navigation__saved-movies']} to='/saved-movies'>
-              Сохраненные фильмы
-            </Link>
-          </li>
-          {/* <li>
-            <ProfileButton />  
-          </li> */}
-        </ul>
-      </nav>}
+      {authorized &&
+        <nav
+          className={`navigation__nav-authorized ${isOpen ? 'navigation__nav-authorized_opened' : ''}`}
+        >
+          <ul className='navigation__list-authorized'>
+            {windowWidth < 768 &&
+              <li>
+                <Link className='navigation__link' to='/'>
+                  Главная
+                </Link>
+              </li>}
+            <li>
+              <Link className='navigation__link' to='/movies'>
+                Фильмы
+              </Link>
+            </li>
+            <li>
+              <Link className='navigation__link' to='/saved-movies'>
+                Сохраненные фильмы
+              </Link>
+            </li>
+            {windowWidth < 768 &&
+              <li style={{marginTop: 'auto'}}>
+                <ProfileButton />
+              </li>}
+          </ul>
+        </nav>}
     </>
   )
 }

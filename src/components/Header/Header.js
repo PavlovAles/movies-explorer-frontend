@@ -4,9 +4,12 @@ import logo from '../../images/logo.svg';
 import Navigation from './Navigation/Navigation';
 import styles from './Header.module.css';
 import ProfileButton from './ProfileButton/ProfileButton';
+import useWindowWidth from '../../hooks/useWindowWidth';
 
 export default function Header({ authorized }) {
   const { pathname } = useLocation();
+  const windowWidth = useWindowWidth();
+
   const headerStyle = {
     backgroundColor: (pathname === '/') ? '#073042' : '#fff',
   }
@@ -18,7 +21,7 @@ export default function Header({ authorized }) {
           <img src={logo} className={styles.header__logo} alt='Логотип' />
         </Link>
         <Navigation authorized={authorized} />
-        {authorized && <ProfileButton />}
+        {authorized && windowWidth > 768 && <ProfileButton />}
       </div>
     </header>
   )
