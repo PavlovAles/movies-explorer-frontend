@@ -1,6 +1,12 @@
 .promo {
+  background-color: #073042;
+}
+
+.promo__wrapper {
+  margin: 0 auto;
   padding: 50px 70px 60px;
   height: 560px;
+  max-width: 1280px;
   box-sizing: border-box;
   background-color: #073042;
   background-image: url(../../../images/landing-logo.svg);
@@ -10,16 +16,16 @@
 }
 
 @media (max-width: 768px) {
-  .promo {
-    height: 844px;
+  .promo__wrapper {
+    height: 840px;
     padding: 297px 44px 70px;
     background-position: bottom 60px center;
   }
 }
 
 @media (max-width: 620px) {
-  .promo {
-    height: 625px;
+  .promo__wrapper {
+    height: 627px;
     padding: 180px 10px 40px;
     background-position: bottom 40px center;
   }
