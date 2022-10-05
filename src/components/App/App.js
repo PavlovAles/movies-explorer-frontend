@@ -11,7 +11,7 @@ import Header from '../Header/Header';
 function App() {
   return (
     <div className='page'>
-      <Header authorized={true}/>
+      <Header authorized={false}/>
       <Switch>
         <Route path='/movies'>
           <Movies />
