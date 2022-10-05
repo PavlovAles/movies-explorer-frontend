@@ -1,18 +1,18 @@
 .student {
   max-width: 1280px;
-  padding: 110px 70px 125px;
+  padding: 110px 70px 107px;
   box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
   .student {
-    padding: 90px 50px;
+    padding: 90px 50px 73px;
   }
 }
 
 @media (max-width: 620px) {
   .student {
-    padding: 70px 14px;
+    padding: 70px 14px 51px;
   }
 }
 

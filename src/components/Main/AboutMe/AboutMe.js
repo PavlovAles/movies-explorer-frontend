@@ -1,6 +1,7 @@
 import React from 'react'
 import SectionTitle from '../SectionTitle/SectionTitle'
 import photoPath from '../../../images/my-photo.png'
+import Portfolio from '../Portfolio/Portfolio'
 
 export default function AboutMe() {
   return (
@@ -19,6 +20,7 @@ export default function AboutMe() {
         </div>
         <img src={photoPath} className='student__photo' alt='мое фото' />
       </article>
+      <Portfolio />
     </section>
   )
 }
