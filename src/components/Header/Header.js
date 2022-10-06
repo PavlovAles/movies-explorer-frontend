@@ -9,12 +9,10 @@ export default function Header({ authorized }) {
   const { pathname } = useLocation();
   const windowWidth = useWindowWidth();
 
-  const headerStyle = {
-    backgroundColor: (pathname === '/') ? '#073042' : '#fff',
-  }
+  const homepage = (pathname === '/') ? true : false;
 
   return (
-    <header className='header' style={headerStyle}>
+    <header className={`header ${homepage ? 'header_home' : ''}`}>
       <div className='header__wrapper'>
         <Link to='/'>
           <img src={logo} className='header__logo' alt='Логотип' />

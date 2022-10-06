@@ -27,8 +27,7 @@ export default function Navigation({ authorized }) {
       {authorized && <Burger clicked={isOpen} handleClick={() => setIsOpen(!isOpen)} />}
       {authorized &&
         <nav
-          className={`navigation__nav-authorized ${isOpen ? 'navigation__nav-authorized_opened' : ''}`}
-        >
+          className={`navigation__nav-authorized ${isOpen ? 'navigation__nav-authorized_opened' : ''}`}>
           <ul className='navigation__list-authorized'>
             {windowWidth < 768 &&
               <li>
@@ -47,7 +46,7 @@ export default function Navigation({ authorized }) {
               </Link>
             </li>
             {windowWidth < 768 &&
-              <li style={{marginTop: 'auto'}}>
+              <li style={{ marginTop: 'auto' }}>
                 <ProfileButton />
               </li>}
           </ul>

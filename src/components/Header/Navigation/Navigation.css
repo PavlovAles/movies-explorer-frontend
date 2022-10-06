@@ -108,6 +108,10 @@
   text-decoration: none;
 }
 
+.header_home .navigation__link {
+  color: #fff
+}
+
 @media (max-width: 768px) {
   .navigation__link {
     font-size: 18px;
