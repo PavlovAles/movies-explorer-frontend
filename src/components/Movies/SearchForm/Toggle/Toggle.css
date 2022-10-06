@@ -6,6 +6,12 @@
   background-color: transparent;
 }
 
+@media (max-width: 650px) {
+  .toggle {
+    margin: 45px auto 0;
+  }
+}
+
 .toggle__toggle {
   width: 36px;
   height: 20px;
@@ -16,7 +22,7 @@
   border-radius: 20px;
 }
 
-.toogle_on .toggle__toggle {
+.toggle_on .toggle__toggle {
   background-color: #2be080;
 }
 
@@ -25,16 +31,23 @@
   height: 16px;
   background-color: #2be080;
   border-radius: 50%;
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
-.toogle_on .toggle__circle {
+.toggle_on .toggle__circle {
   background-color: #fff;
-  transform: translateX(16px)
+  transform: translateX(16px);
 }
 
 .toggle__text {
   margin: 0;
   font-size: 13px;
   line-height: 1.38;
+}
+
+@media (max-width: 480px) {
+  .toggle__text {
+    font-size: 11px;
+    line-height: 1.64;
+  }
 }

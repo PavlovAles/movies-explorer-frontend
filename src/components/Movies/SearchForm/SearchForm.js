@@ -1,13 +1,19 @@
 import React, { useState } from 'react'
+import useWindowWidth from '../../../hooks/useWindowWidth';
 import searchIcon from '../../../images/search-icon.svg'
 import Toggle from './Toggle/Toggle';
 
 export default function SearchForm() {
   const [movie, setMovie] = useState('');
   const [shorts, setShorts] = useState(false);
+  const width = useWindowWidth();
 
   function handleSubmit(e) {
     e.preventDefault();
+  }
+
+  function handleToggle() {
+    setShorts(!shorts);
   }
 
   return (
@@ -31,8 +37,9 @@ export default function SearchForm() {
         >
         </button>
         <div className='search__divider'></div>
-        <Toggle on={shorts} clickHandler={() => setShorts(!shorts)}/>
+        {width > 650 && <Toggle on={shorts} clickHandler={handleToggle}/>}
       </form>
+      {width < 650 && <Toggle on={shorts} clickHandler={handleToggle}/>}
     </section>
   )
 }

@@ -4,7 +4,7 @@ export default function Toggle({ on, clickHandler }) {
   return (
     <button
       type='button'
-      className={`toggle ${on ? 'toogle_on' : ''}`}
+      className={`toggle ${on ? 'toggle_on' : ''}`}
       onClick={() => clickHandler()}
     >
       <div className='toggle__toggle'>

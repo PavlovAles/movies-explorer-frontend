@@ -11,6 +11,12 @@
   }
 }
 
+@media (max-width:480px) {
+  .search {
+    padding: 76px 10px 44px;
+  }
+}
+
 .search__form {
   padding: 19px;
   display: flex;
@@ -25,6 +31,12 @@
   height: 34px;
 }
 
+@media (max-width:480px) {
+  .search__icon {
+    display: none;
+  }
+}
+
 .search__input {
   width: 100%;
   padding: 7px;
@@ -34,6 +46,14 @@
   line-height: 1.11;
   border-width: 0;
   outline: none;
+}
+
+@media (max-width:480px) {
+  .search__input {
+    padding-left: 0;
+    font-size: 14px;
+    line-height: 1.43;
+  }
 }
 
 .search__submit {
