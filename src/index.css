@@ -17,4 +17,8 @@
 @import url(./components/Main/AboutMe/AboutMe.css);
 @import url(./components/Main/Portfolio/Portfolio.css);
 
+@import url(./components/Movies/Movies.css);
+@import url(./components/Movies/SearchForm/SearchForm.css);
+@import url(./components/Movies/SearchForm/Toggle/Toggle.css);
+
 @import url(./components/Footer/Footer.css);

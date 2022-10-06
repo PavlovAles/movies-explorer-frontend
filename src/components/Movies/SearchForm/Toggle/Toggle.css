@@ -1,0 +1,40 @@
+.toggle {
+  padding: 0;
+  display: flex;
+  cursor: pointer;
+  border-style: none;
+  background-color: transparent;
+}
+
+.toggle__toggle {
+  width: 36px;
+  height: 20px;
+  margin-right: 14px;
+  box-sizing: border-box;
+  background-color: #fff;
+  border: 2px solid #2be080;
+  border-radius: 20px;
+}
+
+.toogle_on .toggle__toggle {
+  background-color: #2be080;
+}
+
+.toggle__circle {
+  width: 16px;
+  height: 16px;
+  background-color: #2be080;
+  border-radius: 50%;
+  transition: all .3s ease-in-out;
+}
+
+.toogle_on .toggle__circle {
+  background-color: #fff;
+  transform: translateX(16px)
+}
+
+.toggle__text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.38;
+}

@@ -1,7 +1,10 @@
 import React from 'react'
+import SearchForm from './SearchForm/SearchForm'
 
 export default function Movies() {
   return (
-    <div>Movies</div>
+    <section className='movies'>
+      <SearchForm />
+    </section>
   )
 }
