@@ -18,6 +18,12 @@
   }
 }
 
+@media (max-width: 480px) {
+  .burger {
+    right: 13px;
+  }
+}
+
 .burger__dash {
   width: 100%;
   height: 3px;
