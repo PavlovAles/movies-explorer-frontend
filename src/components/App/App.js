@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
@@ -9,6 +9,10 @@ import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 
 function App() {
+  const { pathname } = useLocation();
+
+  const showHeader = (pathname !== '/signin' && pathname !== '/signup');
+  const showFooter = (pathname !== '/signin' && pathname !== '/signup' && pathname !== '/profile');
 
   const cards = [
     { id: 65432, url: 'https://clck.ru/32GaqW', link: 'https://clck.ru/32GaqW', caption: 'Афиша фильма', name: '33 слова', duration: '1ч 47м' },
@@ -23,7 +27,7 @@ function App() {
 
   return (
     <div className='page'>
-      <Header authorized={true}/>
+      {showHeader && <Header authorized={true}/>}
       <Switch>
         <Route path='/movies'>
           <Movies cards={cards} status={status} />
@@ -44,7 +48,7 @@ function App() {
           <Main />
         </Route>
       </Switch>
-      <Footer />
+      {showFooter && <Footer />}
     </div>
   );
 }
