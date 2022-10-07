@@ -20,5 +20,7 @@
 @import url(./components/Movies/Movies.css);
 @import url(./components/Movies/SearchForm/SearchForm.css);
 @import url(./components/Movies/SearchForm/Toggle/Toggle.css);
+@import url(./components/Movies/MoviesCardList/MoviesCardList.css);
+@import url(./components/Movies/MoviesCard/MoviesCard.css);
 
 @import url(./components/Footer/Footer.css);
