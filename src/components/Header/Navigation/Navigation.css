@@ -9,12 +9,13 @@
 @media (max-width: 620px) {
   .navigation__list-unauthorized {
     gap: 14px;
-  }  
+  }
 }
 
 @media (max-width: 768px) {
   .navigation__nav-authorized {
-    width: 520px;
+    width: 100%;
+    max-width: 520px;
     height: 100vh;
     background-color: #fff;
     position: absolute;
@@ -59,7 +60,7 @@
   .navigation__signup {
     font-size: 10px;
     line-height: 1.6;
-  }  
+  }
 }
 
 .navigation__signin {
@@ -78,7 +79,7 @@
     padding: 4px 12px;
     font-size: 10px;
     line-height: 1.6;
-  }  
+  }
 }
 
 .navigation__list-authorized {
@@ -92,7 +93,7 @@
 
 @media (max-width: 768px) {
   .navigation__list-authorized {
-    padding: 159px 90px 90px;
+    padding: 159px 30px 90px;
     height: 100vh;
     flex-direction: column;
     align-items: center;
@@ -109,7 +110,7 @@
 }
 
 .header_home .navigation__link {
-  color: #fff
+  color: #fff;
 }
 
 @media (max-width: 768px) {
