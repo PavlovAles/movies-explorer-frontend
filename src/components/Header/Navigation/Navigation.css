@@ -109,8 +109,10 @@
   text-decoration: none;
 }
 
-.header_home .navigation__link {
-  color: #fff;
+@media (min-width: 768px) {
+  .header_home .navigation__link {
+    color: #fff;
+  }
 }
 
 @media (max-width: 768px) {
