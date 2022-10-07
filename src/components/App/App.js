@@ -29,7 +29,7 @@ function App() {
           <Movies cards={cards} status={status} />
         </Route>
         <Route path='/saved-movies'>
-          <SavedMovies />
+          <SavedMovies cards={cards.slice(0,3)} status={status} />
         </Route>
         <Route path='/profile'>
           <Profile />
