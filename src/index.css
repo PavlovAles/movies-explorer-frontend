@@ -20,9 +20,9 @@
 @import url(./components/Movies/Movies.css);
 @import url(./components/Movies/SearchForm/SearchForm.css);
 @import url(./components/Movies/SearchForm/Toggle/Toggle.css);
-@import url(./components/Movies/Preloader/Preloader.css);
-@import url(./components/Movies/MoviesCardList/MoviesCardList.css);
-@import url(./components/Movies/MoviesCard/MoviesCard.css);
+@import url(./components/Preloader/Preloader.css);
+@import url(./components/MoviesCardList/MoviesCardList.css);
+@import url(./components/MoviesCard/MoviesCard.css);
 @import url(./components/Movies/MoreButton/MoreButton.css);
 
 @import url(./components/Footer/Footer.css);

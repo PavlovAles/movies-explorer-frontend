@@ -38,7 +38,7 @@
 }
 
 .card__caption {
-  padding: 12px 24px 16px 16px;
+  padding: 12px 14px 16px 16px;
   display: flex;
   justify-content: space-between;
 }
@@ -97,15 +97,28 @@
 }
 
 .card__like {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  background-color: white;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50%;
+  background-image: url(../../images/like.svg);
+  transform: translateY(-5px);
+}
+
+.card__like_active {
+  background-image: url(../../images/like_active.svg);
+}
+
+.card__delete {
   margin-top: 3px;
   width: 14px;
   height: 12px;
   border: none;
   background-color: white;
   background-size: contain;
-  background-image: url(../../../images/like.svg);
-}
-
-.card__like_active {
-  background-image: url(../../../images/like_active.svg);
+  background-image: url(../../images/like.svg);
 }
