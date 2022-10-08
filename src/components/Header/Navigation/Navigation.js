@@ -18,7 +18,7 @@ export default function Navigation({ authorized }) {
             </Link>
           </li>
           <li>
-            <Link className='navigation__signin' to='/signup'>
+            <Link className='navigation__signin' to='/signin'>
               Войти
             </Link>
           </li>

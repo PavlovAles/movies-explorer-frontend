@@ -27,7 +27,7 @@ function App() {
 
   return (
     <div className='page'>
-      {showHeader && <Header authorized={true}/>}
+      {showHeader && <Header authorized={false}/>}
       <Switch>
         <Route path='/movies'>
           <Movies cards={cards} status={status} />
@@ -39,10 +39,10 @@ function App() {
           <Profile />
         </Route>
         <Route path='/signin'>
-          <Register />
+          <Login />
         </Route>
         <Route path='/signup'>
-          <Login />
+          <Register />
         </Route>
         <Route exact path='/'>
           <Main />
