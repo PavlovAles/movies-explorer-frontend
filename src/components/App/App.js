@@ -22,6 +22,8 @@ function App() {
     { id: 65437, url: 'https://clck.ru/32GaqW', link: 'https://clck.ru/32GaqW', caption: 'Афиша фильма', name: '33 слова', duration: '1ч 47м' },
   ]
 
+  const user = {name: 'Виталий', email: 'mail@mail.ru'};
+
   const status = 'success';
 
   return (
@@ -35,7 +37,11 @@ function App() {
           <SavedMovies cards={cards.slice(0, 3)} status={status} />
         </Route>
         <Route path='/profile'>
-          <Profile />
+          <Profile
+            user={user}
+            onSubmit={() => { }}
+            onLogout={() => { }}
+          />
         </Route>
         <Route path='/signin'>
           <LoginRegister
