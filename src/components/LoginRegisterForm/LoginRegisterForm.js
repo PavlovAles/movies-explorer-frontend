@@ -33,8 +33,8 @@ export default function LoginRegisterForm({ type, formName, title, submitText, o
         {type === 'signup' &&
           <>
             <label
-              htmlFor="name"
-              className="register-form__label">
+              htmlFor='name'
+              className='register-form__label'>
               Имя
             </label>
             <input
@@ -52,8 +52,8 @@ export default function LoginRegisterForm({ type, formName, title, submitText, o
           </>
         }
         <label
-          htmlFor="email"
-          className="register-form__label">
+          htmlFor='email'
+          className='register-form__label'>
           E-mail
         </label>
         <input
@@ -69,8 +69,8 @@ export default function LoginRegisterForm({ type, formName, title, submitText, o
           value={email}
         />
         <label
-          htmlFor="password"
-          className="register-form__label">
+          htmlFor='password'
+          className='register-form__label'>
           Пароль
         </label>
         <input
