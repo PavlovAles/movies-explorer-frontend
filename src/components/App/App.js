@@ -3,8 +3,7 @@ import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
-import Register from '../Register/Register';
-import Login from '../Login/Login';
+import LoginRegister from '../LoginRegister/LoginRegister';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 
@@ -27,22 +26,34 @@ function App() {
 
   return (
     <div className='page'>
-      {showHeader && <Header authorized={false}/>}
+      {showHeader && <Header authorized={false} />}
       <Switch>
         <Route path='/movies'>
           <Movies cards={cards} status={status} />
         </Route>
         <Route path='/saved-movies'>
-          <SavedMovies cards={cards.slice(0,3)} status={status} />
+          <SavedMovies cards={cards.slice(0, 3)} status={status} />
         </Route>
         <Route path='/profile'>
           <Profile />
         </Route>
         <Route path='/signin'>
-          <Login />
+          <LoginRegister
+            type='signin'
+            formName='signin'
+            title='Рады видеть!'
+            submitText='Войти'
+            onSubmit={() => { }}
+          />
         </Route>
         <Route path='/signup'>
-          <Register />
+          <LoginRegister
+            type='signup'
+            formName='signup'
+            title='Добро пожаловать!'
+            submitText='Зарегистрироваться'
+            onSubmit={() => { }}
+          />
         </Route>
         <Route exact path='/'>
           <Main />

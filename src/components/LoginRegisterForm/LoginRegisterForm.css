@@ -1,4 +1,4 @@
-.login-form {
+.register-form {
   width: 100%;
   min-height: 449px;
   margin-top: 36px;
@@ -7,13 +7,13 @@
 }
 
 @media (max-width: 480px) {
-  .login-form {
+  .register-form {
     height: calc(100% - 157px);
     margin-top: 46px;
   }
 }
 
-.login-form__title {
+.register-form__title {
   margin: 0;
   font-weight: 500;
   font-size: 24px;
@@ -21,24 +21,24 @@
 }
 
 @media (max-width: 480px) {
-  .login-form__title {
+  .register-form__title {
     text-align: center;
   }
 }
 
-.login-form__fieldset {
+.register-form__fieldset {
   margin: 40px 0 0;
   padding: 0;
   border: none;
 }
 
 @media (max-width: 480px) {
-  .login-form__fieldset {
+  .register-form__fieldset {
     margin-top: 80px;
   }
 }
 
-.login-form__label {
+.register-form__label {
   margin-top: 20px;
   display: block;
   font-size: 10px;
@@ -46,11 +46,11 @@
   color: #a0a0a0;
 }
 
-.login-form__label:first-of-type {
+.register-form__label:first-of-type {
   margin-top: 0;
 }
 
-.login-form__input {
+.register-form__input {
   width: 100%;
   margin-top: 10px;
   padding: 15px;
@@ -62,7 +62,7 @@
   border-radius: 8px;
 }
 
-.login-form__submit {
+.register-form__submit {
   width: 100%;
   margin-top: auto;
   padding: 13px 0 15px;
@@ -77,7 +77,7 @@
 }
 
 @media (max-width: 480px) {
-  .login-form__submit {
+  .register-form__submit {
     font-size: 12px;
     line-height: 1.25;
   }
