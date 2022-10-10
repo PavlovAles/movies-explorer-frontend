@@ -15,16 +15,17 @@
   border-radius: 50px;
 }
 
-.header_home .profileButton {
-  color: #fff;
-  border-color: rgba(255, 255, 255, .2);
-}
-
 .profileButton__icon {
   width: 12px;
   height: 14px;
 }
 
-.header_home .profileButton__icon {
-  filter: invert();
+@media (min-width: 768px) {
+  .header_home .profileButton {
+    color: #fff;
+    border-color: rgba(255, 255, 255, .2);
+  }
+  .header_home .profileButton__icon {
+    filter: invert();
+  }
 }
