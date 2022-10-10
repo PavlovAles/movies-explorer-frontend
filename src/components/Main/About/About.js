@@ -1,5 +1,6 @@
-import React from 'react'
-import SectionTitle from '../SectionTitle/SectionTitle'
+import React from 'react';
+import SectionTitle from '../SectionTitle/SectionTitle';
+import './About.css'
 
 export default function About() {
   return (

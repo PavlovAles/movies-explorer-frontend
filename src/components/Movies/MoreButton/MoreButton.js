@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import './MoreButton.css';
 
 export default function MoreButton() {
   return (

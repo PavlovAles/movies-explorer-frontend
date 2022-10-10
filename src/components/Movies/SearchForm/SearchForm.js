@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import useWindowWidth from '../../../hooks/useWindowWidth';
-import searchIcon from '../../../images/search-icon.svg'
+import searchIcon from '../../../images/search-icon.svg';
 import Toggle from './Toggle/Toggle';
+import './SearchForm.css';
 
 export default function SearchForm() {
   const [movie, setMovie] = useState('');

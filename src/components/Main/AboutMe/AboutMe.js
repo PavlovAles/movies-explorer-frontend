@@ -1,7 +1,8 @@
-import React from 'react'
-import SectionTitle from '../SectionTitle/SectionTitle'
-import photoPath from '../../../images/my-photo.png'
-import Portfolio from '../Portfolio/Portfolio'
+import React from 'react';
+import SectionTitle from '../SectionTitle/SectionTitle';
+import photoPath from '../../../images/my-photo.png';
+import Portfolio from '../Portfolio/Portfolio';
+import './AboutMe.css';
 
 export default function AboutMe() {
   return (

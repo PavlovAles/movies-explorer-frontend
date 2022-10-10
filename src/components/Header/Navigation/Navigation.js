@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useWindowWidth from '../../../hooks/useWindowWidth';
 import ProfileButton from '../ProfileButton/ProfileButton';
 import Burger from './Burger/Burger';
+import './Navigation.css';
 
 export default function Navigation({ authorized }) {
   const [isOpen, setIsOpen] = useState(false);

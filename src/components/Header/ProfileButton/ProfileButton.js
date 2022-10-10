@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import profileIcon from '../../../images/profile-icon.svg';
+import './ProfileButton.css';
 
 export default function ProfileButton() {
   return (

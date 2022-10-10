@@ -6,6 +6,7 @@ import Profile from '../Profile/Profile';
 import LoginRegister from '../LoginRegister/LoginRegister';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
+import './App.css';
 
 function App() {
   const { pathname } = useLocation();
@@ -28,7 +29,7 @@ function App() {
 
   return (
     <div className='page'>
-      {showHeader && <Header authorized={false} />}
+      {showHeader && <Header authorized={true} />}
       <Switch>
         <Route path='/movies'>
           <Movies cards={cards} status={status} />

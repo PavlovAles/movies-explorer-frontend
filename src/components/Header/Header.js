@@ -4,6 +4,7 @@ import logo from '../../images/logo.svg';
 import Navigation from './Navigation/Navigation';
 import ProfileButton from './ProfileButton/ProfileButton';
 import useWindowWidth from '../../hooks/useWindowWidth';
+import './Header.css';
 
 export default function Header({ authorized }) {
   const { pathname } = useLocation();

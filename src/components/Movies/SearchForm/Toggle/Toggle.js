@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import './Toggle.css';
 
 export default function Toggle({ on, clickHandler }) {
   return (

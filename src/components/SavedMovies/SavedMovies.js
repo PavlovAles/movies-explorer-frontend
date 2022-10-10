@@ -1,7 +1,7 @@
-import React from 'react'
-import MoviesCardList from '../MoviesCardList/MoviesCardList'
-import Preloader from '../Preloader/Preloader'
-import './SavedMovies.css'
+import React from 'react';
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import Preloader from '../Preloader/Preloader';
+import './SavedMovies.css';
 
 export default function SavedMovies({ cards, status }) {
   return (

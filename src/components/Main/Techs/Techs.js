@@ -1,5 +1,6 @@
-import React from 'react'
-import SectionTitle from '../SectionTitle/SectionTitle'
+import React from 'react';
+import SectionTitle from '../SectionTitle/SectionTitle';
+import './Techs.css';
 
 export default function Techs() {
   return (
