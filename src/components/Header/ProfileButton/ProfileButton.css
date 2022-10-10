@@ -20,7 +20,7 @@
   height: 14px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   .header_home .profileButton {
     color: #fff;
     border-color: rgba(255, 255, 255, .2);

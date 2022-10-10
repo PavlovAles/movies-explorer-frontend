@@ -102,7 +102,15 @@
   }
 }
 
+@media (max-width: 480px) {
+  .navigation__list-authorized {
+    padding: 145px 30px 86px;
+    gap: 26px;
+  }
+}
+
 .navigation__link {
+  padding-bottom: 4px;
   font-size: 13px;
   line-height: 1.38;
   font-weight: 500;
@@ -110,7 +118,11 @@
   text-decoration: none;
 }
 
-@media (min-width: 768px) {
+.navigation__link_active {
+  border-bottom: 2px solid #000;
+}
+
+@media (min-width: 769px) {
   .header_home .navigation__link {
     color: #fff;
   }
