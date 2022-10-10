@@ -9,6 +9,10 @@ export default function Navigation({ authorized }) {
   const [isOpen, setIsOpen] = useState(false);
   const windowWidth = useWindowWidth();
 
+  function handleRedirect() {
+    setIsOpen(false);
+  }
+
   return (
     <>
       {!authorized && <nav>
@@ -32,23 +36,23 @@ export default function Navigation({ authorized }) {
           <ul className='navigation__list-authorized'>
             {windowWidth < 768 &&
               <li>
-                <Link className='navigation__link' to='/'>
+                <Link className='navigation__link' to='/' onClick={handleRedirect}>
                   Главная
                 </Link>
               </li>}
             <li>
-              <Link className='navigation__link' to='/movies'>
+              <Link className='navigation__link' to='/movies' onClick={handleRedirect}>
                 Фильмы
               </Link>
             </li>
             <li>
-              <Link className='navigation__link' to='/saved-movies'>
+              <Link className='navigation__link' to='/saved-movies' onClick={handleRedirect}>
                 Сохраненные фильмы
               </Link>
             </li>
             {windowWidth < 768 &&
               <li style={{ marginTop: 'auto' }}>
-                <ProfileButton />
+                <ProfileButton onClick={handleRedirect} />
               </li>}
           </ul>
         </nav>}
