@@ -7,12 +7,21 @@ import LoginRegister from '../LoginRegister/LoginRegister';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 import './App.css';
+import NotFound from '../NotFound/NotFound';
 
 function App() {
   const { pathname } = useLocation();
 
-  const showHeader = (pathname !== '/signin' && pathname !== '/signup');
-  const showFooter = (pathname !== '/signin' && pathname !== '/signup' && pathname !== '/profile');
+  const showHeader = (
+    pathname === '/' ||
+    pathname === '/movies' ||
+    pathname === '/saved-movies' ||
+    pathname === '/profile');
+
+  const showFooter = (
+    pathname === '/' ||
+    pathname === '/movies' ||
+    pathname === '/saved-movies');
 
   const cards = [
     { id: 65432, url: 'https://clck.ru/32GaqW', link: 'https://clck.ru/32GaqW', caption: 'Афиша фильма', name: '33 слова', duration: '1ч 47м' },
@@ -23,7 +32,7 @@ function App() {
     { id: 65437, url: 'https://clck.ru/32GaqW', link: 'https://clck.ru/32GaqW', caption: 'Афиша фильма', name: '33 слова', duration: '1ч 47м' },
   ]
 
-  const user = {name: 'Виталий', email: 'mail@mail.ru'};
+  const user = { name: 'Виталий', email: 'mail@mail.ru' };
 
   const status = 'success';
 
@@ -31,6 +40,9 @@ function App() {
     <div className='page'>
       {showHeader && <Header authorized={true} />}
       <Switch>
+        <Route exact path='/'>
+          <Main />
+        </Route>
         <Route path='/movies'>
           <Movies cards={cards} status={status} />
         </Route>
@@ -62,8 +74,8 @@ function App() {
             onSubmit={() => { }}
           />
         </Route>
-        <Route exact path='/'>
-          <Main />
+        <Route path="*">
+          <NotFound />
         </Route>
       </Switch>
       {showFooter && <Footer />}
