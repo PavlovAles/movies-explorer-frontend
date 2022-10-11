@@ -85,8 +85,10 @@
   border-bottom: 2px solid #000;
 }
 
-.header_home .authorized-navigation__link_active {
-  border-bottom: 2px solid #fff;
+@media (min-width: 769px) {
+  .header_home .authorized-navigation__link_active {
+    border-bottom: 2px solid #fff;
+  }
 }
 
 @media (min-width: 769px) {
