@@ -18,6 +18,11 @@
   font-weight: 500;
   color: #fff;
   text-decoration: none;
+  transition: opacity 0.2s linear;
+}
+
+.unauthorized-navigation__signup:hover {
+  opacity: 0.7;
 }
 
 @media (max-width: 380px) {
@@ -36,6 +41,11 @@
   text-decoration: none;
   background-color: var(--accent);
   border-radius: 3px;
+  transition: opacity 0.2s linear;
+}
+
+.unauthorized-navigation__signin:hover {
+  opacity: .8;
 }
 
 @media (max-width: 380px) {

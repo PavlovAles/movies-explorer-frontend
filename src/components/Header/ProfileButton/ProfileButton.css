@@ -13,6 +13,11 @@
   color: #000;
   border: 2px solid rgba(170, 170, 170, .2);
   border-radius: 50px;
+  transition: opacity .2s linear;
+}
+
+.profileButton:hover {
+  opacity: .7;
 }
 
 .profileButton__icon {
