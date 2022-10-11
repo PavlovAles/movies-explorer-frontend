@@ -19,7 +19,7 @@
   }
 }
 
-.authorized-navigation::before {
+.authorized-navigation__background {
   content: '';
   height: 100vh;
   width: calc(100vw - 520px);
@@ -31,7 +31,7 @@
   transition: opacity 0.3s ease-in-out;
 }
 
-.authorized-navigation_opened::before {
+.authorized-navigation_opened .authorized-navigation__background {
   opacity: 1;
 }
 

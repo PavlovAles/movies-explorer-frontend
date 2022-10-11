@@ -9,7 +9,7 @@ export default function AuthorizedNavigation() {
   const [isOpen, setIsOpen] = useState(false);
   const { pathname } = useLocation();
 
-  function handleRedirect() {
+  function closeMenu() {
     setIsOpen(false);
   }
 
@@ -17,12 +17,13 @@ export default function AuthorizedNavigation() {
     <>
       <Burger clicked={isOpen} handleClick={() => setIsOpen(!isOpen)} />
       <nav className={`authorized-navigation ${isOpen ? 'authorized-navigation_opened' : ''}`}>
+        <div className='authorized-navigation__background' onClick={closeMenu}></div>
         <ul className='authorized-navigation__list'>
           <li className='authorized-navigation__item'>
             <Link
               className={`authorized-navigation__link ${pathname === '/' ? 'authorized-navigation__link_active' : ''}`}
               to='/'
-              onClick={handleRedirect}
+              onClick={closeMenu}
             >
               Главная
             </Link>
@@ -31,7 +32,7 @@ export default function AuthorizedNavigation() {
             <Link
               className={`authorized-navigation__link ${pathname === '/movies' ? 'authorized-navigation__link_active' : ''}`}
               to='/movies'
-              onClick={handleRedirect}
+              onClick={closeMenu}
             >
               Фильмы
             </Link>
@@ -40,12 +41,12 @@ export default function AuthorizedNavigation() {
             <Link
               className={`authorized-navigation__link ${pathname === '/saved-movies' ? 'authorized-navigation__link_active' : ''}`}
               to='/saved-movies'
-              onClick={handleRedirect}>
+              onClick={closeMenu}>
               Сохраненные фильмы
             </Link>
           </li>
           <li className='authorized-navigation__item'>
-            <ProfileButton onClick={handleRedirect} />
+            <ProfileButton onClick={closeMenu} />
           </li>
         </ul>
       </nav>
