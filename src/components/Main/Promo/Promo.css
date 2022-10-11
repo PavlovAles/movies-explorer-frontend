@@ -17,16 +17,16 @@
 
 @media (max-width: 768px) {
   .promo__wrapper {
-    height: 840px;
-    padding: 297px 44px 70px;
+    height: 844px;
+    padding: 301px 44px 70px;
     background-position: bottom 60px center;
   }
 }
 
 @media (max-width: 620px) {
   .promo__wrapper {
-    height: 627px;
-    padding: 180px 10px 40px;
+    height: 630px;
+    padding: 183px 10px 40px;
     background-position: bottom 40px center;
   }
 }
