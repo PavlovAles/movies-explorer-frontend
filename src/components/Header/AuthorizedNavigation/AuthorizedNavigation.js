@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import Burger from '../Burger/Burger';
-import ProfileButton from '../../ProfileButton/ProfileButton';
+import Burger from './Burger/Burger';
+import ProfileButton from '../ProfileButton/ProfileButton';
 import './AuthorizedNavigation.css';
 
 

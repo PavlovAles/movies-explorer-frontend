@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../../images/logo.svg';
-import Navigation from './Navigation/Navigation';
 import ProfileButton from './ProfileButton/ProfileButton';
 import useWindowWidth from '../../hooks/useWindowWidth';
+import AuthorizedNavigation from './AuthorizedNavigation/AuthorizedNavigation';
+import UnauthorizedNavigation from './UnauthorizedNavigation/UnauthorizedNavigation';
 import './Header.css';
 
 export default function Header({ authorized }) {
@@ -18,8 +19,14 @@ export default function Header({ authorized }) {
         <Link to='/'>
           <img src={logo} className='header__logo' alt='Логотип' />
         </Link>
-        <Navigation authorized={authorized} />
-        {authorized && windowWidth > 768 && <ProfileButton />}
+        {
+          authorized ?
+            <>
+              <AuthorizedNavigation />
+              {windowWidth > 768 && <ProfileButton />}
+            </> :
+            <UnauthorizedNavigation />
+        }
       </div>
     </header>
   )
