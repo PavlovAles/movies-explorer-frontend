@@ -6,10 +6,14 @@
   display: none;
   flex-direction: column;
   gap: 7px;
-  position: fixed;
+  position: absolute;
   top: 15px;
   right: 30px;
   z-index: 2;
+}
+
+.authorized-navigation_opened + .burger {
+  position: fixed;
 }
 
 @media (max-width: 768px) {

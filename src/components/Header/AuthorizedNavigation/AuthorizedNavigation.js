@@ -15,7 +15,6 @@ export default function AuthorizedNavigation() {
 
   return (
     <>
-      <Burger clicked={isOpen} handleClick={() => setIsOpen(!isOpen)} />
       <nav className={`authorized-navigation ${isOpen ? 'authorized-navigation_opened' : ''}`}>
         <div className='authorized-navigation__background' onClick={closeMenu}></div>
         <ul className='authorized-navigation__list'>
@@ -50,6 +49,7 @@ export default function AuthorizedNavigation() {
           </li>
         </ul>
       </nav>
+      <Burger clicked={isOpen} handleClick={() => setIsOpen(!isOpen)} />
     </>
   )
 }
