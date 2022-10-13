@@ -30,6 +30,7 @@ export default function SearchForm() {
           maxLength={200}
           autoComplete='off'
           value={movie}
+          required
           onChange={(e) => setMovie(e.target.value)}
           className='search__input'
         />
