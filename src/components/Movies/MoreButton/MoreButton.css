@@ -1,0 +1,29 @@
+.more-button {
+  width: 100%;
+  margin-top: 50px;
+  padding: 11px 0 9px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.25;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  background-color: rgba(249, 249, 249, 1);
+  transition: background-color 0.2s linear;
+}
+
+.more-button:hover {
+  background-color: rgba(249, 249, 249, 0.8);
+}
+
+@media (max-width: 768px) {
+  .more-button {
+    margin-top: 72px;
+  }
+}
+
+@media (max-width: 620px) {
+  .more-button {
+    margin-top: 66px;
+  }
+}

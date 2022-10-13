@@ -1,0 +1,27 @@
+@import url(../../vendor/normalize.css);
+
+@import url(../../vendor/fonts/Inter/inter.css);
+
+.page {
+  margin: auto;
+  min-width: 320px;
+  min-height: 100vh;
+  
+  color: var(--font-main);
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+
+  position: relative;
+  
+  --font-main: #000;
+  --font-secondary: #a0a0a0;
+  --accent: #2BE080;
+}

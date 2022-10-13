@@ -1,0 +1,30 @@
+.no-results {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.no-results__image {
+  width: 200px;
+}
+
+@media (max-width: 480px) {
+  .no-results__image {
+    width: 160px;
+  }
+}
+
+.no-results__text {
+  max-width: 243px;
+  margin: 0;
+  font-size: 18px;
+  text-align: center;
+  line-height: 1.2;
+}
+
+@media (max-width: 480px) {
+  .no-results__text {
+    font-size: 14px;
+  }
+}
