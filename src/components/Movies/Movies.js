@@ -9,6 +9,10 @@ import NoResults from './NoResults/NoResults';
 export default function Movies({ cards, status }) {
   const [cardsAmount, setCardsAmount] = useState(3);
 
+  function showMoreCards() {
+    setCardsAmount(Math.min(cardsAmount + 3, cards.length));
+  }
+
   return (
     <section className='movies'>
       <SearchForm />
@@ -16,10 +20,10 @@ export default function Movies({ cards, status }) {
       {status === 'success' &&
         <>
           {cards.length ?
-            <MoviesCardList cards={cards} favorite={false} /> :
+            <MoviesCardList cards={cards.slice(0, cardsAmount)} favorite={false} /> :
             <NoResults />
           }
-          {(cardsAmount !== cards.length) && <MoreButton />}
+          {(cardsAmount !== cards.length) && <MoreButton onClick={showMoreCards} />}
         </>
       }
     </section>

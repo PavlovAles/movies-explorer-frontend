@@ -12,10 +12,16 @@ export default function MoviesCard({ card, favorite }) {
         </h4>
         {
           favorite ?
-            <button className='card__button card__button_delete'></button> :
-            <button className={`card__button card__button_like ${card.liked ? 'card__button-like-active' : ''}`}></button>
+            <button
+              className='card__button card__button_delete'
+              type='button'
+            ></button> :
+            <button
+              className={`card__button card__button_like ${card.liked ? 'card__button-like-active' : ''}`}
+              type='button'
+            ></button>
         }
       </div>
-    </article>
+    </article >
   )
 }
