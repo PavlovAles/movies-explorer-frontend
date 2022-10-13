@@ -39,45 +39,47 @@ function App() {
   return (
     <div className='page'>
       {showHeader && <Header authorized={true} />}
-      <Switch>
-        <Route exact path='/'>
-          <Main />
-        </Route>
-        <Route path='/movies'>
-          <Movies cards={cards} status={status} />
-        </Route>
-        <Route path='/saved-movies'>
-          <SavedMovies cards={cards.slice(0, 3)} status={status} />
-        </Route>
-        <Route path='/profile'>
-          <Profile
-            user={user}
-            onSubmit={() => { }}
-            onLogout={() => { }}
-          />
-        </Route>
-        <Route path='/signin'>
-          <LoginRegister
-            type='signin'
-            formName='signin'
-            title='Рады видеть!'
-            submitText='Войти'
-            onSubmit={() => { }}
-          />
-        </Route>
-        <Route path='/signup'>
-          <LoginRegister
-            type='signup'
-            formName='signup'
-            title='Добро пожаловать!'
-            submitText='Зарегистрироваться'
-            onSubmit={() => { }}
-          />
-        </Route>
-        <Route path="*">
-          <NotFound />
-        </Route>
-      </Switch>
+      <main>
+        <Switch>
+          <Route exact path='/'>
+            <Main />
+          </Route>
+          <Route path='/movies'>
+            <Movies cards={cards} status={status} />
+          </Route>
+          <Route path='/saved-movies'>
+            <SavedMovies cards={cards.slice(0, 3)} status={status} />
+          </Route>
+          <Route path='/profile'>
+            <Profile
+              user={user}
+              onSubmit={() => { }}
+              onLogout={() => { }}
+            />
+          </Route>
+          <Route path='/signin'>
+            <LoginRegister
+              type='signin'
+              formName='signin'
+              title='Рады видеть!'
+              submitText='Войти'
+              onSubmit={() => { }}
+            />
+          </Route>
+          <Route path='/signup'>
+            <LoginRegister
+              type='signup'
+              formName='signup'
+              title='Добро пожаловать!'
+              submitText='Зарегистрироваться'
+              onSubmit={() => { }}
+            />
+          </Route>
+          <Route path="*">
+            <NotFound />
+          </Route>
+        </Switch>
+      </main>
       {showFooter && <Footer />}
     </div>
   );
