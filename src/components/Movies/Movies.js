@@ -19,7 +19,7 @@ export default function Movies({ cards, status }) {
             <MoviesCardList cards={cards} favorite={false} /> :
             <NoResults />
           }
-          {(cardsAmount === cards.length) && <MoreButton />}
+          {(cardsAmount !== cards.length) && <MoreButton />}
         </>
       }
     </section>
