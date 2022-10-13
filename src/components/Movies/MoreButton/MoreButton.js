@@ -1,8 +1,14 @@
 import React from 'react';
 import './MoreButton.css';
 
-export default function MoreButton() {
+export default function MoreButton({ onClick }) {
   return (
-    <button className='more-button'>Ещё</button>
+    <button
+      className='more-button'
+      type='button'
+      onClick={() => onClick()}
+    >
+      Ещё
+    </button>
   )
 }
