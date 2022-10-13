@@ -85,11 +85,17 @@
 
 .profile__input {
   width: 100%;
+  margin-left: 8px;
   font-family: inherit;
   font-weight: 400;
   text-align: right;
+  border-radius: 6px;
   border: none;
   outline: none;
+}
+
+.profile__input:focus {
+  outline: 1px solid var(--accent);
 }
 
 .profile__submit {

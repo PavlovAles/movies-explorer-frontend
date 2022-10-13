@@ -3,9 +3,9 @@
 }
 
 .promo__wrapper {
+  height: 556px;
   margin: 0 auto;
-  padding: 50px 70px 60px;
-  height: 560px;
+  padding: 46px 70px 60px;
   max-width: 1280px;
   box-sizing: border-box;
   background-color: #073042;
@@ -17,16 +17,16 @@
 
 @media (max-width: 768px) {
   .promo__wrapper {
-    height: 844px;
-    padding: 301px 44px 70px;
+    height: 840px;
+    padding: 297px 44px 70px;
     background-position: bottom 60px center;
   }
 }
 
 @media (max-width: 620px) {
   .promo__wrapper {
-    height: 630px;
-    padding: 183px 10px 40px;
+    height: 626px;
+    padding: 179px 10px 40px;
     background-position: bottom 40px center;
   }
 }

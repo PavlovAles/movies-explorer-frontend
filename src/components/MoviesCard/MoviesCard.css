@@ -23,6 +23,7 @@
   object-fit: cover;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {
@@ -105,6 +106,12 @@
   background-repeat: no-repeat;
   background-position: center;
   transform: translateY(-5px);
+  cursor: pointer;
+  transition: opacity 0.3s linear;
+}
+
+.card__button:hover {
+  opacity: 0.8;
 }
 
 .card__button_like {

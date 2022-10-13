@@ -63,6 +63,10 @@
   border-radius: 8px;
 }
 
+.register-form__input:focus {
+  outline: 1px solid var(--accent);
+}
+
 .register-form__submit {
   width: 100%;
   margin-top: auto;
