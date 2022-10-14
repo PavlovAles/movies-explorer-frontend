@@ -21,7 +21,8 @@ export default function LoginRegisterForm({ type, formName, title, submitText, o
 
   function handleSubmit(e) {
     e.preventDefault();
-    onSubmit(password, email);
+    type === 'signup' ? onSubmit(name, password, email) : onSubmit(password, email);
+    setName('');
     setEmail('');
     setPassword('');
   }

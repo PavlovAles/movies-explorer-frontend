@@ -9,17 +9,17 @@ export default function Profile({ user, onSubmit, onLogout }) {
 
   function handleNameChange(e) {
     setName(e.target.value);
-    setEditPermission(e.target.value !== user.name);
+    setEditPermission(e.target.value !== user.name || e.target.value !== user.email);
   }
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
-    setEditPermission(e.target.value !== user.email);
+    setEditPermission(e.target.value !== user.name || e.target.value !== user.email);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    onSubmit(name, email);
+    onSubmit({name, email});
     setEditPermission(false);
   }
 
@@ -69,7 +69,7 @@ export default function Profile({ user, onSubmit, onLogout }) {
             className={`profile__submit ${editPermission ? '' : 'profile__submit_disabled'}`}
             type='submit'
             onSubmit={handleSubmit}
-            disabled={editPermission}
+            disabled={!editPermission}
           >
             Редактировать
           </button>

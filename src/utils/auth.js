@@ -1,4 +1,5 @@
-const BASE_URL = 'https://ales.movies.nomoredomains.icu/';
+// const BASE_URL = 'https://ales.movies.nomoredomains.icu';
+const BASE_URL = 'http://localhost:3000';
 
 function checkResponse(res) {
   if (res.ok) {
@@ -7,17 +8,17 @@ function checkResponse(res) {
   return Promise.reject(res.json());
 }
 
-export function register(password, email) {
+export function register(name, password, email) {
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ password, email }),
+    body: JSON.stringify({ name, password, email }),
   }).then(checkResponse);
 }
-
+  
 export function authorize(password, email) {
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',

@@ -64,5 +64,6 @@ class MainApi {
 }
 
 export const api = new MainApi({
-  baseUrl: 'https://api.ales.movies.nomoredomains.icu/',
+  // baseUrl: 'https://api.ales.movies.nomoredomains.icu',
+  baseUrl: 'http://localhost:3000',
 });

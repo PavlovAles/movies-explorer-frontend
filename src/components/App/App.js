@@ -1,4 +1,7 @@
-import { Route, Switch, useLocation } from 'react-router-dom';
+import React from 'react';
+import { useEffect, useState } from 'react';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
@@ -6,11 +9,24 @@ import Profile from '../Profile/Profile';
 import LoginRegister from '../LoginRegister/LoginRegister';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
-import './App.css';
 import NotFound from '../NotFound/NotFound';
+import { api } from '../../utils/MainApi';
+import * as auth from '../../utils/auth';
+import getMovies from '../../utils/MoviesApi';
+import './App.css';
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState({
+    name: '',
+    email: '',
+  });
+  const [cards, setCards] = useState([]);
+  const [favoriteCards, setFavoriteCards] = useState([]);
+  const [status, setStatus] = useState('idle');
   const { pathname } = useLocation();
+
+  const history = useHistory();
 
   const showHeader = (
     pathname === '/' ||
@@ -23,65 +39,134 @@ function App() {
     pathname === '/movies' ||
     pathname === '/saved-movies');
 
-  const cards = [
-    { id: 65432, url: 'https://clck.ru/32GaqW', link: 'https://clck.ru/32GaqW', caption: 'Афиша фильма', name: '33 слова', duration: '1ч 47м' },
-    { id: 65433, url: 'https://clck.ru/32GaqW', link: 'https://clck.ru/32GaqW', caption: 'Афиша фильма', name: '33 слова', duration: '1ч 47м' },
-    { id: 65434, url: 'https://clck.ru/32GaqW', link: 'https://clck.ru/32GaqW', caption: 'Афиша фильма', name: '33 слова', duration: '1ч 47м' },
-    { id: 65435, url: 'https://clck.ru/32GaqW', link: 'https://clck.ru/32GaqW', caption: 'Афиша фильма', name: '33 слова', duration: '1ч 47м' },
-    { id: 65436, url: 'https://clck.ru/32GaqW', link: 'https://clck.ru/32GaqW', caption: 'Афиша фильма', name: '33 слова', duration: '1ч 47м' },
-    { id: 65437, url: 'https://clck.ru/32GaqW', link: 'https://clck.ru/32GaqW', caption: 'Афиша фильма', name: '33 слова', duration: '1ч 47м' },
-  ]
+  useEffect(() => {
+    handleTokenCheck();
+  }, []);
 
-  const user = { name: 'Виталий', email: 'mail@mail.ru' };
+  function handleLogin(password, email) {
+    auth
+      .authorize(password, email)
+      .then((data) => {
+        if (data?.token) {
+          localStorage.setItem('jwt', data.token);
+          setLoggedIn(true);
+          handleTokenCheck();
+        }
+      })
+      .catch((errJson) => {
+        errJson.then((err) => {
+          console.log(`Error: ${err.message}`);
+        });
+      });
+  }
 
-  const status = 'success';
+  function handleLogout() {
+    setLoggedIn(false);
+    setCurrentUser({
+      name: '',
+      email: '',
+    });
+    localStorage.removeItem('jwt');
+  }
+
+  function handleTokenCheck() {
+    if (!localStorage.getItem('jwt')) {
+      return;
+    }
+    const jwt = localStorage.getItem('jwt');
+    auth
+      .checkToken(jwt)
+      .then((res) => {
+        setCurrentUser(res.data);
+        setLoggedIn(true);
+        getMovies()
+          .then(res => {
+            setCards(res.data);
+            history.push('/movies');
+          })
+          .catch(err => console.log(err))
+      })
+      .catch((err) => {
+        err.then((err) => {
+          console.log(err);
+        });
+      });
+  }
+
+  function handleRegistration(name, password, email) {
+    auth
+      .register(name, password, email)
+      .then((res) => {
+        history.push('/signin');
+      })
+      .catch((err) => {
+        err.then((err) => {
+          console.log(err);
+        });
+      });
+  }
+
+  function handleUserUpdate(userInfo) {
+    api
+      .setProfile(userInfo)
+      .then((userInfo) => {
+        setCurrentUser(userInfo.data);
+      })
+      .catch((err) => {
+        err.then((err) => {
+          console.log(err.message);
+        });
+      });
+  }
 
   return (
-    <div className='page'>
-      {showHeader && <Header authorized={true} />}
-      <main>
-        <Switch>
-          <Route exact path='/'>
-            <Main />
-          </Route>
-          <Route path='/movies'>
-            <Movies cards={cards} status={status} />
-          </Route>
-          <Route path='/saved-movies'>
-            <SavedMovies cards={cards.slice(0, 3)} status={status} />
-          </Route>
-          <Route path='/profile'>
-            <Profile
-              user={user}
-              onSubmit={() => { }}
-              onLogout={() => { }}
-            />
-          </Route>
-          <Route path='/signin'>
-            <LoginRegister
-              type='signin'
-              formName='signin'
-              title='Рады видеть!'
-              submitText='Войти'
-              onSubmit={() => { }}
-            />
-          </Route>
-          <Route path='/signup'>
-            <LoginRegister
-              type='signup'
-              formName='signup'
-              title='Добро пожаловать!'
-              submitText='Зарегистрироваться'
-              onSubmit={() => { }}
-            />
-          </Route>
-          <Route path="*">
-            <NotFound />
-          </Route>
-        </Switch>
-      </main>
-      {showFooter && <Footer />}
-    </div>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className='page'>
+        {showHeader && <Header authorized={loggedIn} />}
+        <main>
+          <Switch>
+            <Route exact path='/'>
+              <Main />
+            </Route>
+            <Route path='/movies'>
+              <Movies cards={cards} status={status} />
+            </Route>
+            <Route path='/saved-movies'>
+              <SavedMovies cards={favoriteCards} status={status} />
+            </Route>
+            <Route path='/profile'>
+              <Profile
+                user={currentUser}
+                onSubmit={handleUserUpdate}
+                onLogout={handleLogout}
+              />
+            </Route>
+            <Route path='/signin'>
+              <LoginRegister
+                type='signin'
+                formName='signin'
+                title='Рады видеть!'
+                submitText='Войти'
+                onSubmit={handleLogin}
+              />
+            </Route>
+            <Route path='/signup'>
+              <LoginRegister
+                type='signup'
+                formName='signup'
+                title='Добро пожаловать!'
+                submitText='Зарегистрироваться'
+                onSubmit={handleRegistration}
+              />
+            </Route>
+            <Route path="*">
+              <NotFound />
+            </Route>
+          </Switch>
+        </main>
+        {showFooter && <Footer />}
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 
