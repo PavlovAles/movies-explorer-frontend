@@ -1,4 +1,4 @@
-export default function getCards() {
+export default function getMovies() {
   return fetch('https://api.nomoreparties.co/beatfilm-movies', {
   })
     .then(res => {
