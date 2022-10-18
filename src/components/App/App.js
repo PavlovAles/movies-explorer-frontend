@@ -21,9 +21,10 @@ function App() {
     name: '',
     email: '',
   });
-  const [cards, setCards] = useState([]);
-  const [favoriteCards, setFavoriteCards] = useState([]);
-  const [status, setStatus] = useState('idle');
+  const [movies, setMovies] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const [status, setStatus] = useState('success');
   const { pathname } = useLocation();
 
   const history = useHistory();
@@ -41,6 +42,11 @@ function App() {
 
   useEffect(() => {
     handleTokenCheck();
+    getMovies()
+    .then(res => {
+      setMovies(res);
+    })
+    .catch(err => console.log(err))
   }, []);
 
   function handleLogin(password, email) {
@@ -79,12 +85,7 @@ function App() {
       .then((res) => {
         setCurrentUser(res.data);
         setLoggedIn(true);
-        getMovies()
-          .then(res => {
-            setCards(res.data);
-            history.push('/movies');
-          })
-          .catch(err => console.log(err))
+        history.push('/movies');
       })
       .catch((err) => {
         err.then((err) => {
@@ -119,6 +120,10 @@ function App() {
       });
   }
 
+  function filterMovies(query) {
+    setFilteredMovies(movies.filter(movie => movie.nameRU.toLowerCase().includes(query) || movie.nameEN.toLowerCase().includes(query)));
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className='page'>
@@ -129,10 +134,10 @@ function App() {
               <Main />
             </Route>
             <Route path='/movies'>
-              <Movies cards={cards} status={status} />
+              <Movies movies={filteredMovies} status={status} onSearch={filterMovies} />
             </Route>
             <Route path='/saved-movies'>
-              <SavedMovies cards={favoriteCards} status={status} />
+              <SavedMovies movies={favoriteMovies} status={status} />
             </Route>
             <Route path='/profile'>
               <Profile

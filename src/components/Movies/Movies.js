@@ -6,24 +6,24 @@ import SearchForm from './SearchForm/SearchForm';
 import './Movies.css';
 import NoResults from './NoResults/NoResults';
 
-export default function Movies({ cards, status }) {
+export default function Movies({ movies, status, onSearch }) {
   const [cardsAmount, setCardsAmount] = useState(3);
 
   function showMoreCards() {
-    setCardsAmount(Math.min(cardsAmount + 3, cards.length));
+    setCardsAmount(Math.min(cardsAmount + 3, movies.length));
   }
 
   return (
     <section className='movies'>
-      <SearchForm />
+      <SearchForm onSearch={onSearch} />
       {status === 'loading' && <Preloader />}
       {status === 'success' &&
         <>
-          {cards.length ?
-            <MoviesCardList cards={cards.slice(0, cardsAmount)} favorite={false} /> :
+          {movies.length ?
+            <MoviesCardList movies={movies} favorite={false} /> :
             <NoResults />
           }
-          {(cardsAmount !== cards.length) && <MoreButton onClick={showMoreCards} />}
+          {(cardsAmount !== movies.length) && <MoreButton onClick={showMoreCards} />}
         </>
       }
     </section>

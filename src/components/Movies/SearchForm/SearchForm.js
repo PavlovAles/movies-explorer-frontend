@@ -4,13 +4,14 @@ import searchIcon from '../../../images/search-icon.svg';
 import Toggle from './Toggle/Toggle';
 import './SearchForm.css';
 
-export default function SearchForm() {
+export default function SearchForm({ onSearch }) {
   const [movie, setMovie] = useState('');
   const [shorts, setShorts] = useState(false);
   const width = useWindowWidth();
 
   function handleSubmit(e) {
     e.preventDefault();
+    onSearch(movie);
   }
 
   function handleToggle() {
@@ -40,9 +41,9 @@ export default function SearchForm() {
         >
         </button>
         <div className='search__divider'></div>
-        {width > 650 && <Toggle on={shorts} clickHandler={handleToggle}/>}
+        {width > 650 && <Toggle on={shorts} clickHandler={handleToggle} />}
       </form>
-      {width < 650 && <Toggle on={shorts} clickHandler={handleToggle}/>}
+      {width < 650 && <Toggle on={shorts} clickHandler={handleToggle} />}
     </section>
   )
 }
