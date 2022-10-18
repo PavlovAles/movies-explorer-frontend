@@ -6,7 +6,7 @@ import SearchForm from './SearchForm/SearchForm';
 import './Movies.css';
 import NoResults from './NoResults/NoResults';
 
-export default function Movies({ movies, status, onSearch }) {
+export default function Movies({ movies, status, onSearch, onLikeClick }) {
   const [cardsAmount, setCardsAmount] = useState(3);
 
   function showMoreCards() {
@@ -20,7 +20,7 @@ export default function Movies({ movies, status, onSearch }) {
       {status === 'success' &&
         <>
           {movies.length ?
-            <MoviesCardList movies={movies} favorite={false} /> :
+            <MoviesCardList movies={movies} favorite={false} onLikeClick={onLikeClick} /> :
             <NoResults />
           }
           {(cardsAmount !== movies.length) && <MoreButton onClick={showMoreCards} />}

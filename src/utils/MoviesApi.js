@@ -1,4 +1,4 @@
-export default function getMovies() {
+export default function getAllMovies() {
   return fetch('https://api.nomoreparties.co/beatfilm-movies', {
   })
     .then(res => {

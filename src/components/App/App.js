@@ -12,7 +12,7 @@ import Header from '../Header/Header';
 import NotFound from '../NotFound/NotFound';
 import { api } from '../../utils/MainApi';
 import * as auth from '../../utils/auth';
-import getMovies from '../../utils/MoviesApi';
+import getAllMovies from '../../utils/MoviesApi';
 import './App.css';
 
 function App() {
@@ -22,8 +22,8 @@ function App() {
     email: '',
   });
   const [movies, setMovies] = useState([]);
-  const [filteredMovies, setFilteredMovies] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState([]);
   const [status, setStatus] = useState('success');
   const { pathname } = useLocation();
 
@@ -33,21 +33,65 @@ function App() {
     pathname === '/' ||
     pathname === '/movies' ||
     pathname === '/saved-movies' ||
-    pathname === '/profile');
+    pathname === '/profile'
+  );
 
   const showFooter = (
     pathname === '/' ||
     pathname === '/movies' ||
-    pathname === '/saved-movies');
+    pathname === '/saved-movies'
+  );
+
+  async function getAndSetMovies() {
+    let [allMovies, favoriteMovies] = await Promise.all([getAllMovies(), api.getUsersMovies()]);
+    favoriteMovies = favoriteMovies.data.map(movie => ({ ...movie, favorite: true }));
+    allMovies = allMovies.map(movie => {
+      const favoriteCard = favoriteMovies.find(favoriteMovie => favoriteMovie.movieId === movie.id);
+      return {
+        country: movie.country,
+        director: movie.director,
+        duration: movie.duration,
+        year: movie.year,
+        description: movie.description,
+        image: 'https://api.nomoreparties.co/' + movie.image.url,
+        trailerLink: movie.trailerLink,
+        nameRU: movie.nameRU,
+        nameEN: movie.nameEN,
+        thumbnail: 'https://api.nomoreparties.co/' + movie.image.formats.thumbnail.url,
+        movieId: movie.id,
+        favorite: favoriteCard !== undefined,
+        _id: favoriteCard ? favoriteCard._id : null,
+      }
+    });
+    setFavoriteMovies(favoriteMovies);
+    setMovies(allMovies);
+  };
 
   useEffect(() => {
     handleTokenCheck();
-    getMovies()
-    .then(res => {
-      setMovies(res);
-    })
-    .catch(err => console.log(err))
+    getAndSetMovies();
   }, []);
+
+  //user
+  function handleTokenCheck() {
+    if (!localStorage.getItem('jwt')) {
+      return;
+    }
+    const jwt = localStorage.getItem('jwt');
+    auth
+      .checkToken(jwt)
+      .then((res) => {
+        setCurrentUser(res.data);
+        setLoggedIn(true);
+        getAndSetMovies();
+        history.push('/movies');
+      })
+      .catch((err) => {
+        err.then((err) => {
+          console.log(err);
+        });
+      });
+  }
 
   function handleLogin(password, email) {
     auth
@@ -73,25 +117,6 @@ function App() {
       email: '',
     });
     localStorage.removeItem('jwt');
-  }
-
-  function handleTokenCheck() {
-    if (!localStorage.getItem('jwt')) {
-      return;
-    }
-    const jwt = localStorage.getItem('jwt');
-    auth
-      .checkToken(jwt)
-      .then((res) => {
-        setCurrentUser(res.data);
-        setLoggedIn(true);
-        history.push('/movies');
-      })
-      .catch((err) => {
-        err.then((err) => {
-          console.log(err);
-        });
-      });
   }
 
   function handleRegistration(name, password, email) {
@@ -120,24 +145,77 @@ function App() {
       });
   }
 
+  //movies
   function filterMovies(query) {
-    setFilteredMovies(movies.filter(movie => movie.nameRU.toLowerCase().includes(query) || movie.nameEN.toLowerCase().includes(query)));
+    const filteredMovies = movies.filter(movie => {
+      return (
+        movie.nameRU.toLowerCase().includes(query) || 
+        movie.nameEN.toLowerCase().includes(query)
+      )
+    })
+    setFilteredMovies(filteredMovies);
   }
+
+  function clearFileredMovies() {
+    setFilteredMovies([]);
+  }
+
+  function handleLikeClick(clickedMovie) {
+    if (clickedMovie.favorite) {
+      api
+        .deleteMovie(clickedMovie._id)
+        .then(() => {
+          setFavoriteMovies(state => state.filter(movie => movie._id !== clickedMovie._id));
+          setMovies(state => state.filter(movie => movie._id !== clickedMovie._id));
+        })
+        .catch((errJson) => {
+          errJson.then((err) => {
+            console.log(err.message);
+          });
+        });
+      return;
+    }
+
+    api
+      .postMovie(clickedMovie)
+      .then((favoriteMovie) => {
+        favoriteMovie = { ...favoriteMovie.data, favorite: true };
+        setFavoriteMovies(state => [...state, favoriteMovie]);
+        setMovies((state) =>
+          state.map((movie) => (movie.movieId === favoriteMovie.movieId ? favoriteMovie : movie))
+        );
+      })
+      .catch((errJson) => {
+        errJson.then((err) => {
+          console.log(err.message);
+        });
+      });
+  }
+
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className='page'>
-        {showHeader && <Header authorized={loggedIn} />}
+        {showHeader && <Header authorized={loggedIn} onLinkClick={clearFileredMovies}/>}
         <main>
           <Switch>
             <Route exact path='/'>
               <Main />
             </Route>
             <Route path='/movies'>
-              <Movies movies={filteredMovies} status={status} onSearch={filterMovies} />
+              <Movies
+                movies={filteredMovies}
+                status={status}
+                onSearch={filterMovies}
+                onLikeClick={handleLikeClick}
+              />
             </Route>
             <Route path='/saved-movies'>
-              <SavedMovies movies={favoriteMovies} status={status} />
+              <SavedMovies
+                movies={favoriteMovies}
+                status={status}
+                onLikeClick={handleLikeClick}
+              />
             </Route>
             <Route path='/profile'>
               <Profile

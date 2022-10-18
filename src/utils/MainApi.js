@@ -31,7 +31,7 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
-  getMovies() {
+  getUsersMovies() {
     return fetch(`${this._baseUrl}/movies`, {
       method: 'GET',
       headers: {
@@ -42,13 +42,16 @@ class MainApi {
   }
 
   postMovie(data) {
+    const body = JSON.parse(JSON.stringify(data));
+    delete body.favorite;
+    delete body._id;
     return fetch(`${this._baseUrl}/movies`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ${localStorage.getItem('jwt')}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(body),
     }).then(this._checkResponse);
   }
 

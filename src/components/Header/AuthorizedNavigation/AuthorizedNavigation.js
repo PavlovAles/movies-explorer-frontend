@@ -5,12 +5,13 @@ import ProfileButton from '../ProfileButton/ProfileButton';
 import './AuthorizedNavigation.css';
 
 
-export default function AuthorizedNavigation() {
+export default function AuthorizedNavigation({ onLinkClick }) {
   const [isOpen, setIsOpen] = useState(false);
   const { pathname } = useLocation();
 
   function closeMenu() {
     setIsOpen(false);
+    onLinkClick();
   }
 
   return (
