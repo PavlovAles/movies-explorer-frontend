@@ -43,28 +43,35 @@ function App() {
   );
 
   async function getAndSetMovies() {
-    let [allMovies, favoriteMovies] = await Promise.all([getAllMovies(), api.getUsersMovies()]);
-    favoriteMovies = favoriteMovies.data.map(movie => ({ ...movie, favorite: true }));
-    allMovies = allMovies.map(movie => {
-      const favoriteCard = favoriteMovies.find(favoriteMovie => favoriteMovie.movieId === movie.id);
-      return {
-        country: movie.country,
-        director: movie.director,
-        duration: movie.duration,
-        year: movie.year,
-        description: movie.description,
-        image: 'https://api.nomoreparties.co/' + movie.image.url,
-        trailerLink: movie.trailerLink,
-        nameRU: movie.nameRU,
-        nameEN: movie.nameEN,
-        thumbnail: 'https://api.nomoreparties.co/' + movie.image.formats.thumbnail.url,
-        movieId: movie.id,
-        favorite: favoriteCard !== undefined,
-        _id: favoriteCard ? favoriteCard._id : null,
-      }
-    });
-    setFavoriteMovies(favoriteMovies);
-    setMovies(allMovies);
+    setStatus('loading');
+    try {
+      let [allMovies, favoriteMovies] = await Promise.all([getAllMovies(), api.getUsersMovies()]);
+      favoriteMovies = favoriteMovies.data.map(movie => ({ ...movie, favorite: true }));
+      allMovies = allMovies.map(movie => {
+        const favoriteCard = favoriteMovies.find(favoriteMovie => favoriteMovie.movieId === movie.id);
+        return {
+          country: movie.country,
+          director: movie.director,
+          duration: movie.duration,
+          year: movie.year,
+          description: movie.description,
+          image: 'https://api.nomoreparties.co/' + movie.image.url,
+          trailerLink: movie.trailerLink,
+          nameRU: movie.nameRU,
+          nameEN: movie.nameEN,
+          thumbnail: 'https://api.nomoreparties.co/' + movie.image.formats.thumbnail.url,
+          movieId: movie.id,
+          favorite: favoriteCard !== undefined,
+          _id: favoriteCard ? favoriteCard._id : null,
+        }
+      });
+      setStatus('success')
+      setFavoriteMovies(favoriteMovies);
+      setMovies(allMovies);
+    } catch (err) {
+      console.log(err);
+      setStatus('error');
+    }
   };
 
   useEffect(() => {
@@ -84,7 +91,7 @@ function App() {
         setCurrentUser(res.data);
         setLoggedIn(true);
         getAndSetMovies();
-        history.push('/movies');
+        history.push('/saved-movies');
       })
       .catch((err) => {
         err.then((err) => {
@@ -149,7 +156,7 @@ function App() {
   function filterMovies(query) {
     const filteredMovies = movies.filter(movie => {
       return (
-        movie.nameRU.toLowerCase().includes(query) || 
+        movie.nameRU.toLowerCase().includes(query) ||
         movie.nameEN.toLowerCase().includes(query)
       )
     })
@@ -196,7 +203,7 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className='page'>
-        {showHeader && <Header authorized={loggedIn} onLinkClick={clearFileredMovies}/>}
+        {showHeader && <Header authorized={loggedIn} onLinkClick={clearFileredMovies} />}
         <main>
           <Switch>
             <Route exact path='/'>
