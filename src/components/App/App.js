@@ -163,6 +163,16 @@ function App() {
     setFilteredMovies(filteredMovies);
   }
 
+  function filterFavoriteMovies(query) {
+    const filteredMovies = favoriteMovies.filter(movie => {
+      return (
+        movie.nameRU.toLowerCase().includes(query) ||
+        movie.nameEN.toLowerCase().includes(query)
+      )
+    })
+    setFilteredMovies(filteredMovies);
+  }
+
   function clearFileredMovies() {
     setFilteredMovies([]);
   }
@@ -172,33 +182,35 @@ function App() {
       api
         .deleteMovie(clickedMovie._id)
         .then(() => {
-          setFavoriteMovies(state => state.filter(movie => movie._id !== clickedMovie._id));
-          setMovies(state => state.filter(movie => movie._id !== clickedMovie._id));
+          setFavoriteMovies(state => state.filter(movie => movie.movieId !== clickedMovie.movieId));
+          setMovies(state => state.map(movie => (movie.movieId !== clickedMovie.movieId) ? movie : {...movie, _id: null, favorite: false}));
+          setFilteredMovies(state => state.map(movie => (movie.movieId !== clickedMovie.movieId) ? movie : {...movie, _id: null, favorite: false}));
         })
         .catch((errJson) => {
           errJson.then((err) => {
             console.log(err.message);
           });
         });
-      return;
-    }
-
-    api
-      .postMovie(clickedMovie)
-      .then((favoriteMovie) => {
-        favoriteMovie = { ...favoriteMovie.data, favorite: true };
-        setFavoriteMovies(state => [...state, favoriteMovie]);
-        setMovies((state) =>
-          state.map((movie) => (movie.movieId === favoriteMovie.movieId ? favoriteMovie : movie))
-        );
-      })
-      .catch((errJson) => {
-        errJson.then((err) => {
-          console.log(err.message);
+    } else {
+      api
+        .postMovie(clickedMovie)
+        .then((favoriteMovie) => {
+          favoriteMovie = { ...favoriteMovie.data, favorite: true };
+          setFavoriteMovies(state => [...state, favoriteMovie]);
+          setMovies((state) =>
+            state.map((movie) => (movie.movieId === favoriteMovie.movieId) ? favoriteMovie : movie)
+          );
+          setFilteredMovies((state) =>
+            state.map((movie) => (movie.movieId === favoriteMovie.movieId) ? favoriteMovie : movie)
+          );
+        })
+        .catch((errJson) => {
+          errJson.then((err) => {
+            console.log(err.message);
+          });
         });
-      });
+    }
   }
-
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -221,6 +233,7 @@ function App() {
               <SavedMovies
                 movies={favoriteMovies}
                 status={status}
+                onSearch={filterFavoriteMovies}
                 onLikeClick={handleLikeClick}
               />
             </Route>

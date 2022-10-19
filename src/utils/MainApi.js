@@ -43,8 +43,10 @@ class MainApi {
 
   postMovie(data) {
     const body = JSON.parse(JSON.stringify(data));
-    delete body.favorite;
     delete body._id;
+    delete body.__v;
+    delete body.favorite;
+    delete body.owner;
     return fetch(`${this._baseUrl}/movies`, {
       method: 'POST',
       headers: {
