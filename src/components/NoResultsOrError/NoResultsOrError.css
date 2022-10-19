@@ -16,7 +16,7 @@
 }
 
 .no-results__text {
-  max-width: 243px;
+  max-width: 100%;
   margin: 0;
   font-size: 18px;
   text-align: center;

@@ -3,8 +3,8 @@ import MoreButton from './MoreButton/MoreButton';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 import SearchForm from './SearchForm/SearchForm';
+import NoResultsOrError from '../NoResultsOrError/NoResultsOrError';
 import './Movies.css';
-import NoResults from './NoResults/NoResults';
 
 export default function Movies({ movies, status, onSearch, onLikeClick }) {
   const [cardsAmount, setCardsAmount] = useState(3);
@@ -17,11 +17,11 @@ export default function Movies({ movies, status, onSearch, onLikeClick }) {
     <section className='movies'>
       <SearchForm onSearch={onSearch} />
       {status === 'loading' && <Preloader />}
-      {status === 'success' &&
+      {status !== 'loading' &&
         <>
           {movies.length ?
             <MoviesCardList movies={movies} favorite={false} onLikeClick={onLikeClick} /> :
-            <NoResults />
+            <NoResultsOrError error={status === 'error'} />
           }
           {(cardsAmount !== movies.length) && <MoreButton onClick={showMoreCards} />}
         </>
