@@ -3,15 +3,19 @@ import useWindowWidth from '../../../hooks/useWindowWidth';
 import searchIcon from '../../../images/search-icon.svg';
 import Toggle from './Toggle/Toggle';
 import './SearchForm.css';
+import { useLocation } from 'react-router-dom';
 
 export default function SearchForm({ onSearch }) {
   const [movie, setMovie] = useState('');
   const [shorts, setShorts] = useState(false);
   const width = useWindowWidth();
+  const { pathname } = useLocation();
 
   function handleSubmit(e) {
     e.preventDefault();
-    onSearch(movie);
+    if (pathname === '/saved-movies' || movie.length) {
+      onSearch(movie);
+    }
   }
 
   function handleToggle() {
@@ -31,7 +35,6 @@ export default function SearchForm({ onSearch }) {
           maxLength={200}
           autoComplete='off'
           value={movie}
-          required
           onChange={(e) => setMovie(e.target.value)}
           className='search__input'
         />

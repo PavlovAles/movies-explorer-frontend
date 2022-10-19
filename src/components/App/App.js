@@ -22,8 +22,10 @@ function App() {
     email: '',
   });
   const [movies, setMovies] = useState([]);
-  const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
+  const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const [favoriteFilteredMovies, setFavoriteFilteredMovies] = useState([]);
+  const [filter, setFilter] = useState('');
   const [status, setStatus] = useState('success');
   const { pathname } = useLocation();
 
@@ -66,8 +68,9 @@ function App() {
         }
       });
       setStatus('success')
-      setFavoriteMovies(favoriteMovies);
       setMovies(allMovies);
+      setFavoriteMovies(favoriteMovies);
+      setFavoriteFilteredMovies(favoriteMovies);
     } catch (err) {
       console.log(err);
       setStatus('error');
@@ -153,28 +156,25 @@ function App() {
   }
 
   //movies
-  function filterMovies(query) {
-    const filteredMovies = movies.filter(movie => {
-      return (
-        movie.nameRU.toLowerCase().includes(query) ||
-        movie.nameEN.toLowerCase().includes(query)
-      )
-    })
-    setFilteredMovies(filteredMovies);
+  function filterMovies(collection, setCollection, filter) {
+      const filteredCollection = collection.filter(movie => {
+        return movie.nameRU.toLowerCase().includes(filter);
+      })
+      setCollection(filteredCollection);
   }
 
-  function filterFavoriteMovies(query) {
-    const filteredMovies = favoriteMovies.filter(movie => {
-      return (
-        movie.nameRU.toLowerCase().includes(query) ||
-        movie.nameEN.toLowerCase().includes(query)
-      )
-    })
-    setFilteredMovies(filteredMovies);
+  function setNewFilter(filter) {
+    setFilter(filter);
+    if (pathname === '/movies') {
+      filterMovies(movies, setFilteredMovies, filter);
+      return;
+    }
+    filterMovies(favoriteMovies, setFavoriteFilteredMovies, filter);
   }
 
   function clearFileredMovies() {
     setFilteredMovies([]);
+    setFilter('');
   }
 
   function handleLikeClick(clickedMovie) {
@@ -183,14 +183,16 @@ function App() {
         .postMovie(clickedMovie)
         .then((newMovie) => {
           newMovie = { ...newMovie.data, favorite: true };
-          const mapFunc = (movie) => {
-            return (movie.movieId === newMovie.movieId) ?
-              newMovie :
-              movie;
-          }
-          setMovies(movies.map(mapFunc));
-          setFilteredMovies(filteredMovies.map(mapFunc));
-          setFavoriteMovies(state => [...state, newMovie]);
+          setMovies(state => {
+            const newState = state.map((movie) => (movie.movieId === newMovie.movieId) ? newMovie : movie);
+            filterMovies(newState, setFilteredMovies, filter);
+            return newState;
+          });
+          setFavoriteMovies(state => {
+            const newState = [...state, newMovie];
+            filterMovies(newState, setFavoriteFilteredMovies, filter);
+            return newState;
+          });
         })
         .catch((errJson) => {
           errJson.then((err) => {
@@ -201,14 +203,20 @@ function App() {
       api
         .deleteMovie(clickedMovie._id)
         .then(() => {
-          const mapFunc = (movie) => {
-            return (movie.movieId !== clickedMovie.movieId) ?
-              movie :
-              { ...movie, _id: null, favorite: false };
-          }
-          setMovies(movies.map(mapFunc));
-          setFilteredMovies(filteredMovies.map(mapFunc));
-          setFavoriteMovies(favoriteMovies.filter(movie => movie.movieId !== clickedMovie.movieId));
+          setMovies(state => {
+            const newState = state.map((movie) => {
+              return (movie.movieId !== clickedMovie.movieId) ?
+                movie :
+                { ...movie, _id: null, favorite: false };
+            })
+            filterMovies(newState, setFilteredMovies, filter);
+            return newState;
+          });
+          setFavoriteMovies(state => {
+            const newState = state.filter(movie => movie.movieId !== clickedMovie.movieId);
+            filterMovies(newState, setFavoriteFilteredMovies, filter);
+            return newState;
+          });
         })
         .catch((errJson) => {
           errJson.then((err) => {
@@ -231,15 +239,15 @@ function App() {
               <Movies
                 movies={filteredMovies}
                 status={status}
-                onSearch={filterMovies}
+                onSearch={setNewFilter}
                 onLikeClick={handleLikeClick}
               />
             </Route>
             <Route path='/saved-movies'>
               <SavedMovies
-                movies={favoriteMovies}
+                movies={favoriteFilteredMovies}
                 status={status}
-                onSearch={filterFavoriteMovies}
+                onSearch={setNewFilter}
                 onLikeClick={handleLikeClick}
               />
             </Route>

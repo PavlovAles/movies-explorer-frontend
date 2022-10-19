@@ -4,10 +4,10 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 import './SavedMovies.css';
 
-export default function SavedMovies({ movies, status, onLikeClick }) {
+export default function SavedMovies({ movies, status, onSearch, onLikeClick }) {
   return (
     <section className='saved-movies'>
-      <SearchForm />
+      <SearchForm onSearch={onSearch} />
       {
         status === 'loading' ?
           <Preloader /> :
