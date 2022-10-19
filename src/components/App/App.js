@@ -178,13 +178,19 @@ function App() {
   }
 
   function handleLikeClick(clickedMovie) {
-    if (clickedMovie.favorite) {
+    if (!clickedMovie.favorite) {
       api
-        .deleteMovie(clickedMovie._id)
-        .then(() => {
-          setFavoriteMovies(state => state.filter(movie => movie.movieId !== clickedMovie.movieId));
-          setMovies(state => state.map(movie => (movie.movieId !== clickedMovie.movieId) ? movie : {...movie, _id: null, favorite: false}));
-          setFilteredMovies(state => state.map(movie => (movie.movieId !== clickedMovie.movieId) ? movie : {...movie, _id: null, favorite: false}));
+        .postMovie(clickedMovie)
+        .then((newMovie) => {
+          newMovie = { ...newMovie.data, favorite: true };
+          const mapFunc = (movie) => {
+            return (movie.movieId === newMovie.movieId) ?
+              newMovie :
+              movie;
+          }
+          setMovies(movies.map(mapFunc));
+          setFilteredMovies(filteredMovies.map(mapFunc));
+          setFavoriteMovies(state => [...state, newMovie]);
         })
         .catch((errJson) => {
           errJson.then((err) => {
@@ -193,16 +199,16 @@ function App() {
         });
     } else {
       api
-        .postMovie(clickedMovie)
-        .then((favoriteMovie) => {
-          favoriteMovie = { ...favoriteMovie.data, favorite: true };
-          setFavoriteMovies(state => [...state, favoriteMovie]);
-          setMovies((state) =>
-            state.map((movie) => (movie.movieId === favoriteMovie.movieId) ? favoriteMovie : movie)
-          );
-          setFilteredMovies((state) =>
-            state.map((movie) => (movie.movieId === favoriteMovie.movieId) ? favoriteMovie : movie)
-          );
+        .deleteMovie(clickedMovie._id)
+        .then(() => {
+          const mapFunc = (movie) => {
+            return (movie.movieId !== clickedMovie.movieId) ?
+              movie :
+              { ...movie, _id: null, favorite: false };
+          }
+          setMovies(movies.map(mapFunc));
+          setFilteredMovies(filteredMovies.map(mapFunc));
+          setFavoriteMovies(favoriteMovies.filter(movie => movie.movieId !== clickedMovie.movieId));
         })
         .catch((errJson) => {
           errJson.then((err) => {
