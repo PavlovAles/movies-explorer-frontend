@@ -241,6 +241,7 @@ function App() {
               <Movies
                 movies={filteredMovies}
                 status={status}
+                filter={filter}
                 onSearch={setNewFilter}
                 onLikeClick={handleLikeClick}
               />

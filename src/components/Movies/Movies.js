@@ -7,7 +7,7 @@ import SearchForm from '../SearchForm/SearchForm';
 import NoResultsOrError from '../NoResultsOrError/NoResultsOrError';
 import './Movies.css';
 
-export default function Movies({ movies, status, onSearch, onLikeClick }) {
+export default function Movies({ movies, status, filter, onSearch, onLikeClick }) {
   const [cardsAmount, setCardsAmount] = useState(0);
   const [cardsToAdd, setCardsToAdd] = useState(0);
   const windowWidth = useWindowWidth();
@@ -34,7 +34,7 @@ export default function Movies({ movies, status, onSearch, onLikeClick }) {
         <>
           {movies.length ?
             <MoviesCardList movies={movies.slice(0, cardsAmount)} favorite={false} onLikeClick={onLikeClick} /> :
-            <NoResultsOrError error={status === 'error'} />
+            (filter.query || status==='error') && <NoResultsOrError error={status === 'error'} />
           }
           {(cardsAmount < movies.length) && <MoreButton onClick={showMoreCards} />}
         </>
