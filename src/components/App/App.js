@@ -25,8 +25,7 @@ function App() {
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [favoriteFilteredMovies, setFavoriteFilteredMovies] = useState([]);
-  const [filter, setFilter] = useState('');
-  const [findShorts, setFindShorts] = useState(false);
+  const [filter, setFilter] = useState({ query: '', shorts: false });
   const [status, setStatus] = useState('success');
   const { pathname } = useLocation();
 
@@ -158,10 +157,11 @@ function App() {
 
   //movies
   function filterMovies(collection, setCollection, filter) {
-      const filteredCollection = collection.filter(movie => {
-        return movie.nameRU.toLowerCase().includes(filter);
-      })
-      setCollection(filteredCollection);
+    const filteredCollection = collection.filter(movie => {
+      return movie.nameRU.toLowerCase().includes(filter.query) &&
+        ((movie.duration < 40 && filter.shorts) || (movie.duration > 40 && !filter.shorts));
+    })
+    setCollection(filteredCollection);
   }
 
   function setNewFilter(filter) {
@@ -173,9 +173,10 @@ function App() {
     filterMovies(favoriteMovies, setFavoriteFilteredMovies, filter);
   }
 
-  function clearFileredMovies() {
+  function clearFiler() {
+    setFilter({ query: '', shorts: false });
     setFilteredMovies([]);
-    setFilter('');
+    setFavoriteFilteredMovies(favoriteMovies);
   }
 
   function handleLikeClick(clickedMovie) {
@@ -230,7 +231,7 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className='page'>
-        {showHeader && <Header authorized={loggedIn} onLinkClick={clearFileredMovies} />}
+        {showHeader && <Header authorized={loggedIn} onLinkClick={clearFiler} />}
         <main>
           <Switch>
             <Route exact path='/'>
@@ -241,7 +242,6 @@ function App() {
                 movies={filteredMovies}
                 status={status}
                 onSearch={setNewFilter}
-                onToggleClick={() => setFindShorts(!findShorts)}
                 onLikeClick={handleLikeClick}
               />
             </Route>
@@ -250,8 +250,8 @@ function App() {
                 movies={favoriteFilteredMovies}
                 status={status}
                 onSearch={setNewFilter}
-                onToggleClick={() => setFindShorts(!findShorts)}
                 onLikeClick={handleLikeClick}
+                clearFiler={clearFiler}
               />
             </Route>
             <Route path='/profile'>

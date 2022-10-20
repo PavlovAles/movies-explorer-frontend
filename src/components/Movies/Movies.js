@@ -7,7 +7,7 @@ import SearchForm from '../SearchForm/SearchForm';
 import NoResultsOrError from '../NoResultsOrError/NoResultsOrError';
 import './Movies.css';
 
-export default function Movies({ movies, status, onSearch, onToggleClick, onLikeClick }) {
+export default function Movies({ movies, status, onSearch, onLikeClick }) {
   const [cardsAmount, setCardsAmount] = useState(0);
   const [cardsToAdd, setCardsToAdd] = useState(0);
   const windowWidth = useWindowWidth();
@@ -15,7 +15,7 @@ export default function Movies({ movies, status, onSearch, onToggleClick, onLike
 
   useEffect(() => {
     setCardsToAdd(windowWidth >= 1018 ? 3 : 2);
-    const initialAmount = windowWidth >= 1018 ? 12 : windowWidth > 768 ? 8 : 5;
+    const initialAmount = windowWidth >= 1018 ? 12 : windowWidth > 587 ? 8 : 5;
     if (movies !== prevMovies.current) {
       setCardsAmount(Math.min(initialAmount, movies.length));
     }
@@ -28,7 +28,7 @@ export default function Movies({ movies, status, onSearch, onToggleClick, onLike
 
   return (
     <section className='movies'>
-      <SearchForm onSearch={onSearch} onToggleClick={onToggleClick} />
+      <SearchForm onSearch={onSearch} />
       {status === 'loading' && <Preloader />}
       {status !== 'loading' &&
         <>

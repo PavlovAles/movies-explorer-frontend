@@ -5,7 +5,7 @@ import Toggle from './Toggle/Toggle';
 import { useLocation } from 'react-router-dom';
 import './SearchForm.css';
 
-export default function SearchForm({ onSearch, onToggleClick }) {
+export default function SearchForm({ onSearch, clearFiler }) {
   const [movie, setMovie] = useState('');
   const [shorts, setShorts] = useState(false);
   const width = useWindowWidth();
@@ -13,14 +13,18 @@ export default function SearchForm({ onSearch, onToggleClick }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (pathname === '/saved-movies' || movie.length) {
-      onSearch(movie);
+    if (pathname === '/saved-movies' && !movie.length) {
+      clearFiler();
+      return;
+    }
+    if (movie.length) {
+      onSearch({ query: movie, shorts });
     }
   }
 
   function handleToggle() {
     setShorts(!shorts);
-    onToggleClick();
+    onSearch({ query: movie, shorts: !shorts });
   }
 
   return (
