@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import useWindowWidth from '../../../hooks/useWindowWidth';
-import searchIcon from '../../../images/search-icon.svg';
+import useWindowWidth from '../../hooks/useWindowWidth';
+import searchIcon from '../../images/search-icon.svg';
 import Toggle from './Toggle/Toggle';
-import './SearchForm.css';
 import { useLocation } from 'react-router-dom';
+import './SearchForm.css';
 
 export default function SearchForm({ onSearch }) {
   const [movie, setMovie] = useState('');

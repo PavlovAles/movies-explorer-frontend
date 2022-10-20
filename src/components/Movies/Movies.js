@@ -3,7 +3,7 @@ import useWindowWidth from '../../hooks/useWindowWidth';
 import MoreButton from './MoreButton/MoreButton';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
-import SearchForm from './SearchForm/SearchForm';
+import SearchForm from '../SearchForm/SearchForm';
 import NoResultsOrError from '../NoResultsOrError/NoResultsOrError';
 import './Movies.css';
 

@@ -26,6 +26,7 @@ function App() {
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [favoriteFilteredMovies, setFavoriteFilteredMovies] = useState([]);
   const [filter, setFilter] = useState('');
+  const [findShorts, setFindShorts] = useState('');
   const [status, setStatus] = useState('success');
   const { pathname } = useLocation();
 
@@ -240,6 +241,7 @@ function App() {
                 movies={filteredMovies}
                 status={status}
                 onSearch={setNewFilter}
+                on
                 onLikeClick={handleLikeClick}
               />
             </Route>
