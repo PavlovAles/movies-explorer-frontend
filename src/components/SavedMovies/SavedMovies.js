@@ -5,10 +5,10 @@ import NoResultsOrError from '../NoResultsOrError/NoResultsOrError';
 import Preloader from '../Preloader/Preloader';
 import './SavedMovies.css';
 
-export default function SavedMovies({ movies, status, onSearch, onLikeClick }) {
+export default function SavedMovies({ movies, status, onSearch, onToggleClick, onLikeClick }) {
   return (
     <section className='saved-movies'>
-      <SearchForm onSearch={onSearch} />
+      <SearchForm onSearch={onSearch} onToggleClick={onToggleClick} />
       {status === 'loading' && <Preloader />}
       {status !== 'loading' &&
         <>

@@ -5,7 +5,7 @@ import Toggle from './Toggle/Toggle';
 import { useLocation } from 'react-router-dom';
 import './SearchForm.css';
 
-export default function SearchForm({ onSearch }) {
+export default function SearchForm({ onSearch, onToggleClick }) {
   const [movie, setMovie] = useState('');
   const [shorts, setShorts] = useState(false);
   const width = useWindowWidth();
@@ -20,6 +20,7 @@ export default function SearchForm({ onSearch }) {
 
   function handleToggle() {
     setShorts(!shorts);
+    onToggleClick();
   }
 
   return (

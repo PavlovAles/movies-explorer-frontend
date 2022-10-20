@@ -7,7 +7,7 @@ import SearchForm from '../SearchForm/SearchForm';
 import NoResultsOrError from '../NoResultsOrError/NoResultsOrError';
 import './Movies.css';
 
-export default function Movies({ movies, status, onSearch, onLikeClick }) {
+export default function Movies({ movies, status, onSearch, onToggleClick, onLikeClick }) {
   const [cardsAmount, setCardsAmount] = useState(0);
   const [cardsToAdd, setCardsToAdd] = useState(0);
   const windowWidth = useWindowWidth();
@@ -28,7 +28,7 @@ export default function Movies({ movies, status, onSearch, onLikeClick }) {
 
   return (
     <section className='movies'>
-      <SearchForm onSearch={onSearch} />
+      <SearchForm onSearch={onSearch} onToggleClick={onToggleClick} />
       {status === 'loading' && <Preloader />}
       {status !== 'loading' &&
         <>
