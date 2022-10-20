@@ -9,11 +9,15 @@ export default function useWindowWidth() {
   const [windowWidth, setWindowWidth] = useState(getWindowWidth());
 
   useEffect(() => {
+    let timeOut = null;
+
     function handleResize() {
-      setWindowWidth(getWindowWidth());
+      clearTimeout(timeOut);
+      timeOut = setTimeout(() => setWindowWidth(getWindowWidth()), 200)
     }
 
     window.addEventListener('resize', handleResize);
+
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
