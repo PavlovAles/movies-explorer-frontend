@@ -38,8 +38,12 @@ export default function Movies({ movies, status, filter, filterFunction, onSearc
       {status !== 'loading' &&
         <>
           {filteredMovies.length ?
-            <MoviesCardList movies={filteredMovies.slice(0, cardsAmount)} favorite={false} onLikeClick={onLikeClick} /> :
-            (filter.query || status==='error') && <NoResultsOrError error={status === 'error'} />
+            <MoviesCardList
+              movies={filteredMovies.slice(0, cardsAmount)}
+              favorite={false}
+              onLikeClick={onLikeClick}
+            /> :
+            (filter.query || status === 'error') && <NoResultsOrError error={status === 'error'} />
           }
           {(cardsAmount < filteredMovies.length) && <MoreButton onClick={showMoreCards} />}
         </>

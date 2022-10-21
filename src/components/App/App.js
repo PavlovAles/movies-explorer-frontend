@@ -157,6 +157,15 @@ function App() {
   }
 
   //movies
+  function setNewFilter(filter) {
+    setFilter(filter);
+    localStorage.setItem('filter', JSON.stringify(filter));
+  }
+
+  function setNewFavoriteFilter(filter) {
+    setFavoriteFilter(filter);
+  }
+
   function filterMovies() {
     if (filter.query) {
       const filteredCollection = movies.filter(movie => {
@@ -168,9 +177,16 @@ function App() {
     return []
   }
 
-  function setNewFilter(filter) {
-    setFilter(filter);
-    localStorage.setItem('filter', JSON.stringify(filter));
+  function filterFavoriteMovies() {
+    const favoriteMovies = movies.filter(movie => movie._id !== null);
+    if (favoriteFilter.query) {
+      const filteredCollection = favoriteMovies.filter(movie => {
+        return movie.nameRU.toLowerCase().includes(favoriteFilter.query) &&
+          ((favoriteFilter.shorts && movie.duration < 40) || (!favoriteFilter.shorts && movie.duration > 40));
+      })
+      return filteredCollection;
+    }
+    return favoriteMovies;
   }
 
   // function setNewFavoriteFilter(filter) {
@@ -251,15 +267,17 @@ function App() {
                 onLikeClick={() => {}}
               />
             </Route>
-            {/* <Route path='/saved-movies'>
+            <Route path='/saved-movies'>
               <SavedMovies
-                movies={favoriteFilteredMovies}
+                movies={movies}
                 status={status}
+                filterFunction={filterFavoriteMovies}
+                filter={favoriteFilter}
+                favorite={true}
                 onSearch={setNewFavoriteFilter}
-                onLikeClick={handleDeleteFromFavorite}
-                onEmptySearch={showAllFavoriteMovies}
+                onLikeClick={() => {}}
               />
-            </Route> */}
+            </Route>
             <Route path='/profile'>
               <Profile
                 user={currentUser}

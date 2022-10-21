@@ -5,7 +5,7 @@ import Toggle from './Toggle/Toggle';
 import { useLocation } from 'react-router-dom';
 import './SearchForm.css';
 
-export default function SearchForm({ onSearch, onEmptySearch }) {
+export default function SearchForm({ onSearch }) {
   const [query, setQuery] = useState('');
   const [shorts, setShorts] = useState(false);
   
@@ -19,7 +19,7 @@ export default function SearchForm({ onSearch, onEmptySearch }) {
       setShorts(shorts);
       onSearch({ query, shorts });
     }
-  }, []);
+  }, [pathname, onSearch]);
 
   function handleSubmit(e) {
     e.preventDefault();
