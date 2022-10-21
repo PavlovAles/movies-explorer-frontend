@@ -7,7 +7,7 @@ import AuthorizedNavigation from './AuthorizedNavigation/AuthorizedNavigation';
 import UnauthorizedNavigation from './UnauthorizedNavigation/UnauthorizedNavigation';
 import './Header.css';
 
-export default function Header({ authorized, onLinkClick }) {
+export default function Header({ authorized }) {
   const { pathname } = useLocation();
   const windowWidth = useWindowWidth();
 
@@ -16,13 +16,13 @@ export default function Header({ authorized, onLinkClick }) {
   return (
     <header className={`header ${homepage ? 'header_home' : ''}`}>
       <div className='header__wrapper'>
-        <Link to='/' onClick={() => onLinkClick()}>
+        <Link to='/'>
           <img src={logo} className='header__logo' alt='Логотип' />
         </Link>
         {
           authorized ?
             <>
-              <AuthorizedNavigation onLinkClick={onLinkClick} />
+              <AuthorizedNavigation />
               {windowWidth > 768 && <ProfileButton />}
             </> :
             <UnauthorizedNavigation />

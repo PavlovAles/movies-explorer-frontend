@@ -23,9 +23,12 @@ function App() {
   });
   const [movies, setMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
+  const [filter, setFilter] = useState({ query: '', shorts: false });
+
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [favoriteFilteredMovies, setFavoriteFilteredMovies] = useState([]);
-  const [filter, setFilter] = useState({ query: '', shorts: false });
+  const [favoriteFilter, setFavoriteFilter] = useState({ query: '', shorts: false });
+
   const [status, setStatus] = useState('success');
   const { pathname } = useLocation();
 
@@ -126,7 +129,13 @@ function App() {
       name: '',
       email: '',
     });
+    setFilteredMovies([]);
+    setFilter({ query: '', shorts: false });
+    setFavoriteMovies([]);
+    setFavoriteFilter({ query: '', shorts: false });
+    setFavoriteFilteredMovies([]);
     localStorage.removeItem('jwt');
+    localStorage.removeItem('filter');
   }
 
   function handleRegistration(name, password, email) {
@@ -157,25 +166,29 @@ function App() {
 
   //movies
   function filterMovies(collection, setCollection, filter) {
-    const filteredCollection = collection.filter(movie => {
-      return movie.nameRU.toLowerCase().includes(filter.query) &&
-        ((movie.duration < 40 && filter.shorts) || (movie.duration > 40 && !filter.shorts));
-    })
-    setCollection(filteredCollection);
+    if (filter.query) {
+      const filteredCollection = collection.filter(movie => {
+        return movie.nameRU.toLowerCase().includes(filter.query) &&
+          ((movie.duration < 40 && filter.shorts) || (movie.duration > 40 && !filter.shorts));
+      })
+      setCollection(filteredCollection);
+      return;
+    }
+    setCollection(collection);
   }
 
   function setNewFilter(filter) {
     setFilter(filter);
-    if (pathname === '/movies') {
-      filterMovies(movies, setFilteredMovies, filter);
-      return;
-    }
+    filterMovies(movies, setFilteredMovies, filter);
+  }
+
+  function setNewFavoriteFilter(filter) {
+    setFavoriteFilter(filter);
     filterMovies(favoriteMovies, setFavoriteFilteredMovies, filter);
   }
 
-  function clearFiler() {
-    setFilter({ query: '', shorts: false });
-    setFilteredMovies([]);
+  function showAllFavoriteMovies() {
+    setFavoriteFilter({ query: '', shorts: false });
     setFavoriteFilteredMovies(favoriteMovies);
   }
 
@@ -192,7 +205,7 @@ function App() {
           });
           setFavoriteMovies(state => {
             const newState = [...state, newMovie];
-            filterMovies(newState, setFavoriteFilteredMovies, filter);
+            filterMovies(newState, setFavoriteFilteredMovies, favoriteFilter);
             return newState;
           });
         })
@@ -216,7 +229,7 @@ function App() {
           });
           setFavoriteMovies(state => {
             const newState = state.filter(movie => movie.movieId !== clickedMovie.movieId);
-            filterMovies(newState, setFavoriteFilteredMovies, filter);
+            filterMovies(newState, setFavoriteFilteredMovies, favoriteFilter);
             return newState;
           });
         })
@@ -231,7 +244,7 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className='page'>
-        {showHeader && <Header authorized={loggedIn} onLinkClick={clearFiler} />}
+        {showHeader && <Header authorized={loggedIn} />}
         <main>
           <Switch>
             <Route exact path='/'>
@@ -244,15 +257,16 @@ function App() {
                 filter={filter}
                 onSearch={setNewFilter}
                 onLikeClick={handleLikeClick}
+                onEmptySearch={() => { }}
               />
             </Route>
             <Route path='/saved-movies'>
               <SavedMovies
                 movies={favoriteFilteredMovies}
                 status={status}
-                onSearch={setNewFilter}
+                onSearch={setNewFavoriteFilter}
                 onLikeClick={handleLikeClick}
-                clearFiler={clearFiler}
+                onEmptySearch={showAllFavoriteMovies}
               />
             </Route>
             <Route path='/profile'>

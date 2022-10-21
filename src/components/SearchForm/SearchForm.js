@@ -1,30 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useWindowWidth from '../../hooks/useWindowWidth';
 import searchIcon from '../../images/search-icon.svg';
 import Toggle from './Toggle/Toggle';
 import { useLocation } from 'react-router-dom';
 import './SearchForm.css';
 
-export default function SearchForm({ onSearch, clearFiler }) {
-  const [movie, setMovie] = useState('');
+export default function SearchForm({ onSearch, onEmptySearch }) {
+  const [query, setQuery] = useState('');
   const [shorts, setShorts] = useState(false);
   const width = useWindowWidth();
   const { pathname } = useLocation();
 
+  useEffect(() => {
+    if (pathname === '/movies' && localStorage.getItem('filter')) {
+      const { query, shorts } = JSON.parse(localStorage.getItem('filter'));
+      setQuery(query);
+      setShorts(shorts);
+      onSearch({ query, shorts });
+    }
+  }, []);
+
   function handleSubmit(e) {
     e.preventDefault();
-    if (pathname === '/saved-movies' && !movie.length) {
-      clearFiler();
+    if (!query.length) {
+      onEmptySearch();
       return;
     }
-    if (movie.length) {
-      onSearch({ query: movie, shorts });
+    onSearch({ query: query, shorts });
+    if (pathname === '/movies') {
+      localStorage.setItem('filter', JSON.stringify({ query: query, shorts }))
     }
   }
 
   function handleToggle() {
     setShorts(!shorts);
-    onSearch({ query: movie, shorts: !shorts });
+    const filter = { query: query, shorts: !shorts };
+    onSearch(filter);
+    if (pathname === '/movies') {
+      localStorage.setItem('filter', JSON.stringify(filter));
+    }
   }
 
   return (
@@ -34,13 +48,13 @@ export default function SearchForm({ onSearch, clearFiler }) {
         <input
           type='text'
           placeholder='Фильм'
-          id='movie'
-          name='movie'
+          id='query'
+          name='query'
           minLength={1}
           maxLength={200}
           autoComplete='off'
-          value={movie}
-          onChange={(e) => setMovie(e.target.value)}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
           className='search__input'
         />
         <button
@@ -51,7 +65,7 @@ export default function SearchForm({ onSearch, clearFiler }) {
         <div className='search__divider'></div>
         {width > 650 && <Toggle on={shorts} clickHandler={handleToggle} />}
       </form>
-      {width < 650 && <Toggle on={shorts} clickHandler={handleToggle} />}
+      {width <= 650 && <Toggle on={shorts} clickHandler={handleToggle} />}
     </section>
   )
 }
