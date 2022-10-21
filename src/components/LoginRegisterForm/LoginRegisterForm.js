@@ -1,30 +1,14 @@
-import React, { useState } from 'react'
-import './LoginRegisterForm.css'
+import React, { useState } from 'react';
+import useForm from '../../hooks/useForm';
+import './LoginRegisterForm.css';
 
 export default function LoginRegisterForm({ type, formName, title, submitText, onSubmit }) {
-
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  function handleChange(e) {
-    if (e.target.name === 'email') {
-      setEmail(e.target.value);
-      return;
-    }
-    if (e.target.name === 'password') {
-      setPassword(e.target.value);
-      return;
-    }
-    setName(e.target.value);
-  }
+  const { values, setValues, changeHandler } = useForm({ name: '', email: '', password: '' });
 
   function handleSubmit(e) {
     e.preventDefault();
-    type === 'signup' ? onSubmit(name, password, email) : onSubmit(password, email);
-    setName('');
-    setEmail('');
-    setPassword('');
+    type === 'signup' ? onSubmit(values.name, values.password, values.email) : onSubmit(values.password, values.email);
+    setValues({ name: '', email: '', password: '' });
   }
 
   return (
@@ -47,8 +31,8 @@ export default function LoginRegisterForm({ type, formName, title, submitText, o
               required
               autoComplete='off'
               className='register-form__input'
-              onChange={handleChange}
-              value={name}
+              onChange={changeHandler}
+              value={values.name}
             />
           </>
         }
@@ -66,8 +50,8 @@ export default function LoginRegisterForm({ type, formName, title, submitText, o
           required
           autoComplete='off'
           className='register-form__input'
-          onChange={handleChange}
-          value={email}
+          onChange={changeHandler}
+          value={values.email}
         />
         <label
           htmlFor='password'
@@ -83,8 +67,8 @@ export default function LoginRegisterForm({ type, formName, title, submitText, o
           required
           autoComplete='off'
           className='register-form__input'
-          onChange={handleChange}
-          value={password}
+          onChange={changeHandler}
+          value={values.password}
         />
       </fieldset>
       <button
