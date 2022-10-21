@@ -75,6 +75,9 @@ function App() {
   useEffect(() => {
     handleTokenCheck();
     getAndSetMovies();
+    if (localStorage.getItem('filter')) {
+      setFilter(JSON.parse(localStorage.getItem('filter')));
+    }
   }, []);
 
   //user
@@ -166,10 +169,10 @@ function App() {
     setCollection(collection);
   }
 
-  // function setNewFilter(filter) {
-  //   setFilter(filter);
-  //   filterMovies(movies, setFilteredMovies, filter);
-  // }
+  function setNewFilter(filter) {
+    setFilter(filter);
+    localStorage.setItem('filter', JSON.stringify(filter));
+  }
 
   // function setNewFavoriteFilter(filter) {
   //   setFavoriteFilter(filter);

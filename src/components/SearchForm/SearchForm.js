@@ -8,6 +8,7 @@ import './SearchForm.css';
 export default function SearchForm({ onSearch, onEmptySearch }) {
   const [query, setQuery] = useState('');
   const [shorts, setShorts] = useState(false);
+  
   const width = useWindowWidth();
   const { pathname } = useLocation();
 
@@ -22,23 +23,12 @@ export default function SearchForm({ onSearch, onEmptySearch }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!query.length) {
-      onEmptySearch();
-      return;
-    }
     onSearch({ query: query, shorts });
-    if (pathname === '/movies') {
-      localStorage.setItem('filter', JSON.stringify({ query: query, shorts }))
-    }
   }
 
   function handleToggle() {
     setShorts(!shorts);
-    const filter = { query: query, shorts: !shorts };
-    onSearch(filter);
-    if (pathname === '/movies') {
-      localStorage.setItem('filter', JSON.stringify(filter));
-    }
+    onSearch({ query: query, shorts: !shorts });
   }
 
   return (
