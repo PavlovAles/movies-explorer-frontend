@@ -14,6 +14,7 @@ import { api } from '../../utils/MainApi';
 import * as auth from '../../utils/auth';
 import getAllMovies from '../../utils/MoviesApi';
 import './App.css';
+import ProtectedRoute from '../protectedRoute/ProtectedRoute';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -234,34 +235,37 @@ function App() {
             <Route exact path='/'>
               <Main />
             </Route>
-            <Route path='/movies'>
-              <Movies
-                movies={movies}
-                status={status}
-                filterFunction={filterMovies}
-                filter={filter}
-                onSearch={setNewFilter}
-                onLikeClick={handleLikeClick}
-              />
-            </Route>
-            <Route path='/saved-movies'>
-              <SavedMovies
-                movies={movies}
-                status={status}
-                filterFunction={filterFavoriteMovies}
-                filter={favoriteFilter}
-                favorite={true}
-                onSearch={setNewFavoriteFilter}
-                onLikeClick={handleLikeClick}
-              />
-            </Route>
-            <Route path='/profile'>
-              <Profile
-                user={currentUser}
-                onSubmit={handleUserUpdate}
-                onLogout={handleLogout}
-              />
-            </Route>
+            <ProtectedRoute
+              path='/movies'
+              component={Movies}
+              loggedIn={loggedIn}
+              movies={movies}
+              status={status}
+              filterFunction={filterMovies}
+              filter={filter}
+              onSearch={setNewFilter}
+              onLikeClick={handleLikeClick}
+            />
+            <ProtectedRoute
+              path='/saved-movies'
+              component={SavedMovies}
+              loggedIn={loggedIn}
+              movies={movies}
+              status={status}
+              filterFunction={filterFavoriteMovies}
+              filter={favoriteFilter}
+              favorite={true}
+              onSearch={setNewFavoriteFilter}
+              onLikeClick={handleLikeClick}
+            />
+            <ProtectedRoute
+              path='/profile'
+              component={Profile}
+              loggedIn={loggedIn}
+              user={currentUser}
+              onSubmit={handleUserUpdate}
+              onLogout={handleLogout}
+            />
             <Route path='/signin'>
               <LoginRegister
                 type='signin'
