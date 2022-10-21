@@ -75,10 +75,6 @@ function App() {
 
   useEffect(() => {
     handleTokenCheck();
-    getAndSetMovies();
-    if (localStorage.getItem('filter')) {
-      setFilter(JSON.parse(localStorage.getItem('filter')));
-    }
   }, []);
 
   //user
@@ -93,6 +89,9 @@ function App() {
         setCurrentUser(res.data);
         setLoggedIn(true);
         getAndSetMovies();
+        if (localStorage.getItem('filter')) {
+          setFilter(JSON.parse(localStorage.getItem('filter')));
+        }
         history.push('/saved-movies');
       })
       .catch((err) => {
