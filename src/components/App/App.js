@@ -22,13 +22,8 @@ function App() {
     email: '',
   });
   const [movies, setMovies] = useState([]);
-  const [filteredMovies, setFilteredMovies] = useState([]);
   const [filter, setFilter] = useState({ query: '', shorts: false });
-
-  const [favoriteMovies, setFavoriteMovies] = useState([]);
-  const [favoriteFilteredMovies, setFavoriteFilteredMovies] = useState([]);
   const [favoriteFilter, setFavoriteFilter] = useState({ query: '', shorts: false });
-
   const [status, setStatus] = useState('success');
   const { pathname } = useLocation();
 
@@ -51,7 +46,7 @@ function App() {
     setStatus('loading');
     try {
       let [allMovies, favoriteMovies] = await Promise.all([getAllMovies(), api.getUsersMovies()]);
-      favoriteMovies = favoriteMovies.data.map(movie => ({ ...movie, favorite: true }));
+      favoriteMovies = favoriteMovies.data;
       allMovies = allMovies.map(movie => {
         const favoriteCard = favoriteMovies.find(favoriteMovie => favoriteMovie.movieId === movie.id);
         return {
@@ -66,14 +61,11 @@ function App() {
           nameEN: movie.nameEN,
           thumbnail: 'https://api.nomoreparties.co/' + movie.image.formats.thumbnail.url,
           movieId: movie.id,
-          favorite: favoriteCard !== undefined,
           _id: favoriteCard ? favoriteCard._id : null,
         }
       });
       setStatus('success')
       setMovies(allMovies);
-      setFavoriteMovies(favoriteMovies);
-      setFavoriteFilteredMovies(favoriteMovies);
     } catch (err) {
       console.log(err);
       setStatus('error');
@@ -129,11 +121,8 @@ function App() {
       name: '',
       email: '',
     });
-    setFilteredMovies([]);
     setFilter({ query: '', shorts: false });
-    setFavoriteMovies([]);
     setFavoriteFilter({ query: '', shorts: false });
-    setFavoriteFilteredMovies([]);
     localStorage.removeItem('jwt');
     localStorage.removeItem('filter');
   }
@@ -177,91 +166,69 @@ function App() {
     setCollection(collection);
   }
 
-  function setNewFilter(filter) {
-    setFilter(filter);
-    filterMovies(movies, setFilteredMovies, filter);
-  }
+  // function setNewFilter(filter) {
+  //   setFilter(filter);
+  //   filterMovies(movies, setFilteredMovies, filter);
+  // }
 
-  function setNewFavoriteFilter(filter) {
-    setFavoriteFilter(filter);
-    filterMovies(favoriteMovies, setFavoriteFilteredMovies, filter);
-  }
+  // function setNewFavoriteFilter(filter) {
+  //   setFavoriteFilter(filter);
+  //   filterMovies(favoriteMovies, setFavoriteFilteredMovies, filter);
+  // }
 
-  function showAllFavoriteMovies() {
-    setFavoriteFilter({ query: '', shorts: false });
-    setFavoriteFilteredMovies(favoriteMovies);
-  }
+  // function showAllFavoriteMovies() {
+  //   setFavoriteFilter({ query: '', shorts: false });
+  //   setFavoriteFilteredMovies(favoriteMovies);
+  // }
 
-  function handleLikeClick(clickedMovie) {
-    if (!clickedMovie.favorite) {
-      api
-        .postMovie(clickedMovie)
-        .then((newMovie) => {
-          newMovie = { ...newMovie.data, favorite: true };
-          setMovies(state => {
-            const newState = state.map((movie) => (movie.movieId === newMovie.movieId) ? newMovie : movie);
-            filterMovies(newState, setFilteredMovies, filter);
-            return newState;
-          });
-          setFavoriteMovies(state => {
-            const newState = [...state, newMovie];
-            filterMovies(newState, setFavoriteFilteredMovies, favoriteFilter);
-            return newState;
-          });
-        })
-        .catch((errJson) => {
-          errJson.then((err) => {
-            console.log(err.message);
-          });
-        });
-    } else {
-      api
-        .deleteMovie(clickedMovie._id)
-        .then(() => {
-          setMovies(state => {
-            const newState = state.map((movie) => {
-              return (movie.movieId !== clickedMovie.movieId) ?
-                movie :
-                { ...movie, _id: null, favorite: false };
-            })
-            filterMovies(newState, setFilteredMovies, filter);
-            return newState;
-          });
-          setFavoriteMovies(state => {
-            const newState = state.filter(movie => movie.movieId !== clickedMovie.movieId);
-            filterMovies(newState, setFavoriteFilteredMovies, favoriteFilter);
-            return newState;
-          });
-        })
-        .catch((errJson) => {
-          errJson.then((err) => {
-            console.log(err.message);
-          });
-        });
-    }
-  }
-
-  function handleDeleteFromFavorite(clickedMovie) {
-    api
-      .deleteMovie(clickedMovie._id)
-      .then(() => {
-        setMovies(movies.map((movie) => {
-            return (movie.movieId !== clickedMovie.movieId) ?
-              movie :
-              { ...movie, _id: null, favorite: false };
-        }));
-        setFavoriteMovies(state => {
-          const newState = state.filter(movie => movie.movieId !== clickedMovie.movieId);
-          filterMovies(newState, setFavoriteFilteredMovies, favoriteFilter);
-          return newState;
-        });
-      })
-      .catch((errJson) => {
-        errJson.then((err) => {
-          console.log(err.message);
-        });
-      });
-  }
+  // function handleLikeClick(clickedMovie) {
+  //   if (!clickedMovie.favorite) {
+  //     api
+  //       .postMovie(clickedMovie)
+  //       .then((newMovie) => {
+  //         newMovie = { ...newMovie.data, favorite: true };
+  //         setMovies(state => {
+  //           const newState = state.map((movie) => (movie.movieId === newMovie.movieId) ? newMovie : movie);
+  //           filterMovies(newState, setFilteredMovies, filter);
+  //           return newState;
+  //         });
+  //         setFavoriteMovies(state => {
+  //           const newState = [...state, newMovie];
+  //           filterMovies(newState, setFavoriteFilteredMovies, favoriteFilter);
+  //           return newState;
+  //         });
+  //       })
+  //       .catch((errJson) => {
+  //         errJson.then((err) => {
+  //           console.log(err.message);
+  //         });
+  //       });
+  //   } else {
+  //     api
+  //       .deleteMovie(clickedMovie._id)
+  //       .then(() => {
+  //         setMovies(state => {
+  //           const newState = state.map((movie) => {
+  //             return (movie.movieId !== clickedMovie.movieId) ?
+  //               movie :
+  //               { ...movie, _id: null, favorite: false };
+  //           })
+  //           filterMovies(newState, setFilteredMovies, filter);
+  //           return newState;
+  //         });
+  //         setFavoriteMovies(state => {
+  //           const newState = state.filter(movie => movie.movieId !== clickedMovie.movieId);
+  //           filterMovies(newState, setFavoriteFilteredMovies, favoriteFilter);
+  //           return newState;
+  //         });
+  //       })
+  //       .catch((errJson) => {
+  //         errJson.then((err) => {
+  //           console.log(err.message);
+  //         });
+  //       });
+  //   }
+  // }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -272,7 +239,7 @@ function App() {
             <Route exact path='/'>
               <Main />
             </Route>
-            <Route path='/movies'>
+            {/* <Route path='/movies'>
               <Movies
                 movies={filteredMovies}
                 status={status}
@@ -290,7 +257,7 @@ function App() {
                 onLikeClick={handleDeleteFromFavorite}
                 onEmptySearch={showAllFavoriteMovies}
               />
-            </Route>
+            </Route> */}
             <Route path='/profile'>
               <Profile
                 user={currentUser}
