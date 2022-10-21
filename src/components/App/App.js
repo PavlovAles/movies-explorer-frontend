@@ -241,6 +241,28 @@ function App() {
     }
   }
 
+  function handleDeleteFromFavorite(clickedMovie) {
+    api
+      .deleteMovie(clickedMovie._id)
+      .then(() => {
+        setMovies(movies.map((movie) => {
+            return (movie.movieId !== clickedMovie.movieId) ?
+              movie :
+              { ...movie, _id: null, favorite: false };
+        }));
+        setFavoriteMovies(state => {
+          const newState = state.filter(movie => movie.movieId !== clickedMovie.movieId);
+          filterMovies(newState, setFavoriteFilteredMovies, favoriteFilter);
+          return newState;
+        });
+      })
+      .catch((errJson) => {
+        errJson.then((err) => {
+          console.log(err.message);
+        });
+      });
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className='page'>
@@ -265,7 +287,7 @@ function App() {
                 movies={favoriteFilteredMovies}
                 status={status}
                 onSearch={setNewFavoriteFilter}
-                onLikeClick={handleLikeClick}
+                onLikeClick={handleDeleteFromFavorite}
                 onEmptySearch={showAllFavoriteMovies}
               />
             </Route>
