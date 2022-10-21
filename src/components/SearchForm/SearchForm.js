@@ -19,7 +19,7 @@ export default function SearchForm({ onSearch }) {
       setShorts(shorts);
       onSearch({ query, shorts });
     }
-  }, [pathname, onSearch]);
+  }, []);
 
   function handleSubmit(e) {
     e.preventDefault();

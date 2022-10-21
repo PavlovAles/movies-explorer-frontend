@@ -3,7 +3,7 @@ import formatDuration from '../../utils/formatDuration';
 import './MoviesCard.css';
 
 export default function MoviesCard({ movie, favorite, onLikeClick }) {
-  const [liked, setLiked] = useState(movie.favorite);
+  const [liked, setLiked] = useState(movie._id !== null);
 
   function handleLikeClick() {
     setLiked(!liked);

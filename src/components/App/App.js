@@ -189,64 +189,41 @@ function App() {
     return favoriteMovies;
   }
 
-  // function setNewFavoriteFilter(filter) {
-  //   setFavoriteFilter(filter);
-  //   filterMovies(favoriteMovies, setFavoriteFilteredMovies, filter);
-  // }
-
-  // function showAllFavoriteMovies() {
-  //   setFavoriteFilter({ query: '', shorts: false });
-  //   setFavoriteFilteredMovies(favoriteMovies);
-  // }
-
-  // function handleLikeClick(clickedMovie) {
-  //   if (!clickedMovie.favorite) {
-  //     api
-  //       .postMovie(clickedMovie)
-  //       .then((newMovie) => {
-  //         newMovie = { ...newMovie.data, favorite: true };
-  //         setMovies(state => {
-  //           const newState = state.map((movie) => (movie.movieId === newMovie.movieId) ? newMovie : movie);
-  //           filterMovies(newState, setFilteredMovies, filter);
-  //           return newState;
-  //         });
-  //         setFavoriteMovies(state => {
-  //           const newState = [...state, newMovie];
-  //           filterMovies(newState, setFavoriteFilteredMovies, favoriteFilter);
-  //           return newState;
-  //         });
-  //       })
-  //       .catch((errJson) => {
-  //         errJson.then((err) => {
-  //           console.log(err.message);
-  //         });
-  //       });
-  //   } else {
-  //     api
-  //       .deleteMovie(clickedMovie._id)
-  //       .then(() => {
-  //         setMovies(state => {
-  //           const newState = state.map((movie) => {
-  //             return (movie.movieId !== clickedMovie.movieId) ?
-  //               movie :
-  //               { ...movie, _id: null, favorite: false };
-  //           })
-  //           filterMovies(newState, setFilteredMovies, filter);
-  //           return newState;
-  //         });
-  //         setFavoriteMovies(state => {
-  //           const newState = state.filter(movie => movie.movieId !== clickedMovie.movieId);
-  //           filterMovies(newState, setFavoriteFilteredMovies, favoriteFilter);
-  //           return newState;
-  //         });
-  //       })
-  //       .catch((errJson) => {
-  //         errJson.then((err) => {
-  //           console.log(err.message);
-  //         });
-  //       });
-  //   }
-  // }
+  function handleLikeClick(clickedMovie) {
+    if (clickedMovie._id === null) {
+      api
+        .postMovie(clickedMovie)
+        .then((newMovie) => {
+          setMovies(state => {
+            const newState = state.map((movie) => (movie.movieId === newMovie.data.movieId) ? newMovie.data : movie);
+            return newState;
+          });
+        })
+        .catch((errJson) => {
+          errJson.then((err) => {
+            console.log(err.message);
+          });
+        });
+    } else {
+      api
+        .deleteMovie(clickedMovie._id)
+        .then(() => {
+          setMovies(state => {
+            const newState = state.map((movie) => {
+              return (movie.movieId === clickedMovie.movieId) ?
+                { ...movie, _id: null } :
+                movie;
+            })
+            return newState;
+          });
+        })
+        .catch((errJson) => {
+          errJson.then((err) => {
+            console.log(err.message);
+          });
+        });
+    }
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -264,7 +241,7 @@ function App() {
                 filterFunction={filterMovies}
                 filter={filter}
                 onSearch={setNewFilter}
-                onLikeClick={() => {}}
+                onLikeClick={handleLikeClick}
               />
             </Route>
             <Route path='/saved-movies'>
@@ -275,7 +252,7 @@ function App() {
                 filter={favoriteFilter}
                 favorite={true}
                 onSearch={setNewFavoriteFilter}
-                onLikeClick={() => {}}
+                onLikeClick={handleLikeClick}
               />
             </Route>
             <Route path='/profile'>
