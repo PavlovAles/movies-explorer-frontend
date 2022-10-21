@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { isRequired, isValidEmail } from '../../utils/validation';
 import useForm from '../../hooks/useForm';
 import './LoginRegisterForm.css';
 
 export default function LoginRegisterForm({ type, formName, title, submitText, onSubmit }) {
-  const { values, setValues, changeHandler } = useForm({ name: '', email: '', password: '' });
+  const { values, setValues, isValid, errors, touched, changeHandler } = useForm(
+    { name: '', email: '', password: '' },
+    [
+      ({ name }) => isRequired(name) || { name: 'Имя - обязательное поле' },
+      ({ email }) => isValidEmail(email) || { email: 'Невалидный E-mail' },
+      ({ email }) => isRequired(email) || { email: 'E-mail - обязательное поле' },
+      ({ password }) => isRequired(password) || { password: 'Пароль - обязательное поле' },
+    ],
+  );
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -21,59 +30,63 @@ export default function LoginRegisterForm({ type, formName, title, submitText, o
               htmlFor='name'
               className='register-form__label'>
               Имя
+              <input
+                type='text'
+                id='name'
+                name='name'
+                minLength={1}
+                maxLength={200}
+                required
+                autoComplete='off'
+                className='register-form__input'
+                onChange={changeHandler}
+                value={values.name}
+              />
+              {touched.name && errors.name && <p className='register-form__error'>{errors.name}</p>}
             </label>
-            <input
-              type='text'
-              id='name'
-              name='name'
-              minLength={1}
-              maxLength={200}
-              required
-              autoComplete='off'
-              className='register-form__input'
-              onChange={changeHandler}
-              value={values.name}
-            />
           </>
         }
         <label
           htmlFor='email'
           className='register-form__label'>
           E-mail
+          <input
+            type='email'
+            id='email'
+            name='email'
+            minLength={6}
+            maxLength={200}
+            required
+            autoComplete='off'
+            className='register-form__input'
+            onChange={changeHandler}
+            value={values.email}
+          />
+          {touched.email && errors.email && <p className='register-form__error'>{errors.email}</p>}
         </label>
-        <input
-          type='email'
-          id='email'
-          name='email'
-          minLength={6}
-          maxLength={200}
-          required
-          autoComplete='off'
-          className='register-form__input'
-          onChange={changeHandler}
-          value={values.email}
-        />
         <label
           htmlFor='password'
           className='register-form__label'>
           Пароль
+          <input
+            type='password'
+            id='password'
+            name='password'
+            minLength={4}
+            maxLength={200}
+            required
+            autoComplete='off'
+            className='register-form__input'
+            onChange={changeHandler}
+            value={values.password}
+          />
+          {touched.password && errors.password && <p className='register-form__error'>{errors.password}</p>}
         </label>
-        <input
-          type='password'
-          id='password'
-          name='password'
-          minLength={4}
-          maxLength={200}
-          required
-          autoComplete='off'
-          className='register-form__input'
-          onChange={changeHandler}
-          value={values.password}
-        />
       </fieldset>
       <button
         className='register-form__submit'
         type='submit'
+        disabled={isValid}
         onSubmit={handleSubmit}
       >
         {submitText}
