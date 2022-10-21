@@ -27,7 +27,7 @@ export default function SavedMovies({ movies, status, filter, filterFunction, on
               favorite={true}
               onLikeClick={onLikeClick}
             /> :
-            <NoResultsOrError error={status === 'error'} />
+            (filter.query || status === 'error') && <NoResultsOrError error={status === 'error'} />
           }
         </>
       }
