@@ -157,16 +157,15 @@ function App() {
   }
 
   //movies
-  function filterMovies(collection, setCollection, filter) {
+  function filterMovies() {
     if (filter.query) {
-      const filteredCollection = collection.filter(movie => {
+      const filteredCollection = movies.filter(movie => {
         return movie.nameRU.toLowerCase().includes(filter.query) &&
-          ((movie.duration < 40 && filter.shorts) || (movie.duration > 40 && !filter.shorts));
+          ((filter.shorts && movie.duration < 40) || (!filter.shorts && movie.duration > 40));
       })
-      setCollection(filteredCollection);
-      return;
+      return filteredCollection;
     }
-    setCollection(collection);
+    return []
   }
 
   function setNewFilter(filter) {
@@ -242,17 +241,17 @@ function App() {
             <Route exact path='/'>
               <Main />
             </Route>
-            {/* <Route path='/movies'>
+            <Route path='/movies'>
               <Movies
-                movies={filteredMovies}
+                movies={movies}
                 status={status}
+                filterFunction={filterMovies}
                 filter={filter}
                 onSearch={setNewFilter}
-                onLikeClick={handleLikeClick}
-                onEmptySearch={() => { }}
+                onLikeClick={() => {}}
               />
             </Route>
-            <Route path='/saved-movies'>
+            {/* <Route path='/saved-movies'>
               <SavedMovies
                 movies={favoriteFilteredMovies}
                 status={status}
