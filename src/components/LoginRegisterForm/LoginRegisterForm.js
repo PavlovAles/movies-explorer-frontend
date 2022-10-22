@@ -86,7 +86,7 @@ export default function LoginRegisterForm({ type, formName, title, submitText, o
       <button
         className='register-form__submit'
         type='submit'
-        disabled={isValid}
+        disabled={!isValid}
         onSubmit={handleSubmit}
       >
         {submitText}
