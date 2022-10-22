@@ -1,26 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom';
-import './Profile.css'
+import useForm from '../../hooks/useForm';
+import { isAnythingChanged, isRequired, isValidEmail } from '../../utils/validation';
+import './Profile.css';
 
 export default function Profile({ user, onSubmit, onLogout }) {
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
-  const [editPermission, setEditPermission] = useState(false);
 
-  function handleNameChange(e) {
-    setName(e.target.value);
-    setEditPermission(e.target.value !== user.name || e.target.value !== user.email);
-  }
-
-  function handleEmailChange(e) {
-    setEmail(e.target.value);
-    setEditPermission(e.target.value !== user.name || e.target.value !== user.email);
-  }
+  const { values, isValid, errors, touched, changeHandler } = useForm(
+    { name: user.name, email: user.email },
+    [
+      ({ name }) => isRequired(name) || { name: 'Имя - обязательное поле' },
+      ({ email }) => isValidEmail(email) || { email: 'Невалидный E-mail' },
+      ({ email }) => isRequired(email) || { email: 'E-mail - обязательное поле' },
+      (values) => isAnythingChanged(values , user) || { values: '' },
+    ],
+  );
 
   function handleSubmit(e) {
     e.preventDefault();
-    onSubmit({name, email});
-    setEditPermission(false);
+    onSubmit({ name: values.name, email: values.email });
   }
 
   return (
@@ -42,9 +40,10 @@ export default function Profile({ user, onSubmit, onLogout }) {
                 required
                 autoComplete='off'
                 className='profile__input'
-                onChange={handleNameChange}
-                value={name}
+                onChange={changeHandler}
+                value={values.name}
               />
+              {touched.name && errors.name && <p className='profile__error'>{errors.name}</p>}
             </label>
             <div className='profile__divider'></div>
             <label
@@ -60,16 +59,17 @@ export default function Profile({ user, onSubmit, onLogout }) {
                 required
                 autoComplete='off'
                 className='profile__input'
-                onChange={handleEmailChange}
-                value={email}
+                onChange={changeHandler}
+                value={values.email}
               />
+              {touched.email && errors.email && <p className='profile__error'>{errors.email}</p>}
             </label>
           </fieldset>
           <button
-            className={`profile__submit ${editPermission ? '' : 'profile__submit_disabled'}`}
+            className={`profile__submit ${isValid ? '' : 'profile__submit_disabled'}`}
             type='submit'
             onSubmit={handleSubmit}
-            disabled={!editPermission}
+            disabled={!isValid}
           >
             Редактировать
           </button>
