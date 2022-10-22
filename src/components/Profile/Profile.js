@@ -6,7 +6,7 @@ import './Profile.css';
 
 export default function Profile({ user, onSubmit, onLogout }) {
 
-  const { values, isValid, errors, touched, changeHandler } = useForm(
+  const { values, isValid, setValid, errors, touched, changeHandler } = useForm(
     { name: user.name, email: user.email },
     [
       ({ name }) => isRequired(name) || { name: 'Имя - обязательное поле' },
@@ -19,6 +19,7 @@ export default function Profile({ user, onSubmit, onLogout }) {
   function handleSubmit(e) {
     e.preventDefault();
     onSubmit({ name: values.name, email: values.email });
+    setValid(false);
   }
 
   return (
@@ -66,7 +67,7 @@ export default function Profile({ user, onSubmit, onLogout }) {
             </label>
           </fieldset>
           <button
-            className={`profile__submit ${isValid ? '' : 'profile__submit_disabled'}`}
+            className='profile__submit'
             type='submit'
             onSubmit={handleSubmit}
             disabled={!isValid}

@@ -23,5 +23,5 @@ export default function useForm(initialState = {}, validations = []) {
     setTouched({ ...touched, [event.target.name]: true });
   };
 
-  return { values, setValues, isValid, errors, touched, changeHandler };
+  return { values, setValues, isValid, setValid, errors, touched, changeHandler };
 }
