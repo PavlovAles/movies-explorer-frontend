@@ -25,7 +25,7 @@ export default function Profile({ user, onSubmit, onLogout }) {
   return (
     <section className='profile'>
       <div className='profile__wrapper'>
-        <form className='profile__form' name='profile' onSubmit={handleSubmit}>
+        <form className='profile__form' name='profile' onSubmit={handleSubmit} noValidate>
           <h2 className='profile__title'>{`Привет, ${user.name}!`}</h2>
           <fieldset className='profile__fieldset'>
             <label

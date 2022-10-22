@@ -21,7 +21,7 @@ export default function LoginRegisterForm({ type, formName, title, submitText, o
   }
 
   return (
-    <form className='register-form' name={formName} onSubmit={handleSubmit}>
+    <form className='register-form' name={formName} onSubmit={handleSubmit} novalidate>
       <h2 className='register-form__title'>{title}</h2>
       <fieldset className='register-form__fieldset'>
         {type === 'signup' &&
