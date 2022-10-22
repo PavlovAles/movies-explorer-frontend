@@ -134,7 +134,7 @@ function App() {
     auth
       .register(name, password, email)
       .then((res) => {
-        history.push('/signin');
+        handleLogin(password, email);
       })
       .catch((err) => {
         err.then((err) => {
