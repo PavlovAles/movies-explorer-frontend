@@ -92,6 +92,11 @@
   cursor: pointer;
 }
 
+.register-form__submit:disabled {
+  background-color: #a0a0a0;
+  cursor: auto;
+}
+
 @media (max-width: 480px) {
   .register-form__submit {
     font-size: 12px;

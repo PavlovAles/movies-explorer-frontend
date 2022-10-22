@@ -123,9 +123,10 @@
   cursor: pointer;
 }
 
-.profile__submit_disabled {
+.profile__submit:disabled {
   color: #000;
   background-color: transparent;
+  cursor: auto;
 }
 
 .profile__signput {
