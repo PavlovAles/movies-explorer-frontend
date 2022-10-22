@@ -7,7 +7,7 @@ export default function LoginRegisterForm({ type, formName, title, submitText, o
   const { values, setValues, isValid, errors, touched, changeHandler } = useForm(
     { name: '', email: '', password: '' },
     [
-      ({ name }) => isRequired(name) || { name: 'Имя - обязательное поле' },
+      ({ name }) =>  (type === 'signin') || isRequired(name) || { name: 'Имя - обязательное поле' },
       ({ email }) => isValidEmail(email) || { email: 'Невалидный E-mail' },
       ({ email }) => isRequired(email) || { email: 'E-mail - обязательное поле' },
       ({ password }) => isRequired(password) || { password: 'Пароль - обязательное поле' },
@@ -21,7 +21,7 @@ export default function LoginRegisterForm({ type, formName, title, submitText, o
   }
 
   return (
-    <form className='register-form' name={formName} onSubmit={handleSubmit} novalidate>
+    <form className='register-form' name={formName} onSubmit={handleSubmit} noValidate>
       <h2 className='register-form__title'>{title}</h2>
       <fieldset className='register-form__fieldset'>
         {type === 'signup' &&
