@@ -2,6 +2,9 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { api } from '../../utils/MainApi';
+import * as auth from '../../utils/auth';
+import getAllMovies from '../../utils/MoviesApi';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
@@ -10,9 +13,6 @@ import LoginRegister from '../LoginRegister/LoginRegister';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 import NotFound from '../NotFound/NotFound';
-import { api } from '../../utils/MainApi';
-import * as auth from '../../utils/auth';
-import getAllMovies from '../../utils/MoviesApi';
 import ProtectedRoute from '../protectedRoute/ProtectedRoute';
 import './App.css';
 
@@ -22,7 +22,7 @@ function App() {
     name: '',
     email: '',
   });
-  const [movies, setMovies] = useState([]);
+  const [movieList, setMovieList] = useState([]);
   const [filter, setFilter] = useState({ query: '', shorts: false });
   const [favoriteFilter, setFavoriteFilter] = useState({ query: '', shorts: false });
   const [status, setStatus] = useState('success');
@@ -61,10 +61,10 @@ function App() {
   async function getAndSetMovies() {
     setStatus('loading');
     try {
-      let [allMovies, favoriteMovies] = await Promise.all([getAllMovies(), api.getUsersMovies()]);
-      favoriteMovies = favoriteMovies.data;
+      let [allMovies, favoriteMovieList] = await Promise.all([getAllMovies(), api.getUsersMovies()]);
+      favoriteMovieList = favoriteMovieList.data;
       allMovies = allMovies.map(movie => {
-        const favoriteCard = favoriteMovies.find(favoriteMovie => favoriteMovie.movieId === movie.id);
+        const favoriteCard = favoriteMovieList.find(favoriteMovie => favoriteMovie.movieId === movie.id);
         return {
           country: movie.country,
           director: movie.director,
@@ -81,7 +81,7 @@ function App() {
         }
       });
       setStatus('success')
-      setMovies(allMovies);
+      setMovieList(allMovies);
     } catch (err) {
       console.log(err);
       setStatus('error');
@@ -188,7 +188,7 @@ function App() {
 
   function filterMovies() {
     if (filter.query) {
-      const filteredCollection = movies.filter(movie => {
+      const filteredCollection = movieList.filter(movie => {
         return movie.nameRU.toLowerCase().includes(filter.query) &&
           ((filter.shorts && movie.duration < 40) || (!filter.shorts && movie.duration > 40));
       })
@@ -198,7 +198,7 @@ function App() {
   }
 
   function filterFavoriteMovies() {
-    const favoriteMovies = movies.filter(movie => movie._id !== null);
+    const favoriteMovies = movieList.filter(movie => movie._id !== null);
     if (favoriteFilter.query) {
       const filteredCollection = favoriteMovies.filter(movie => {
         return movie.nameRU.toLowerCase().includes(favoriteFilter.query) &&
@@ -214,7 +214,7 @@ function App() {
       api
         .postMovie(clickedMovie)
         .then((newMovie) => {
-          setMovies(state => {
+          setMovieList(state => {
             const newState = state.map((movie) => (movie.movieId === newMovie.data.movieId) ? newMovie.data : movie);
             return newState;
           });
@@ -228,7 +228,7 @@ function App() {
       api
         .deleteMovie(clickedMovie._id)
         .then(() => {
-          setMovies(state => {
+          setMovieList(state => {
             const newState = state.map((movie) => {
               return (movie.movieId === clickedMovie.movieId) ?
                 { ...movie, _id: null } :
@@ -258,7 +258,7 @@ function App() {
               path='/movies'
               component={Movies}
               loggedIn={loggedIn}
-              movies={movies}
+              movies={movieList}
               status={status}
               filterFunction={filterMovies}
               filter={filter}
@@ -269,7 +269,7 @@ function App() {
               path='/saved-movies'
               component={SavedMovies}
               loggedIn={loggedIn}
-              movies={movies}
+              movies={movieList}
               status={status}
               filterFunction={filterFavoriteMovies}
               filter={favoriteFilter}
