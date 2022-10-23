@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 function validate(validations, values) {
   const errors = validations
@@ -23,5 +23,12 @@ export default function useForm(initialState = {}, validations = []) {
     setTouched({ ...touched, [event.target.name]: true });
   };
 
-  return { values, setValues, isValid, setValid, errors, touched, changeHandler };
+  const reset = useCallback(() => {
+    setValues(initialState);
+    setErrors(initialErrors);
+    setValid(initialIsValid);
+    setTouched({});
+  }, [setValues, setErrors, setValid, setTouched])
+
+  return { values, isValid, setValid, errors, touched, changeHandler, reset };
 }
