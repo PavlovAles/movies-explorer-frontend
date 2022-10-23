@@ -15,6 +15,7 @@ import Header from '../Header/Header';
 import NotFound from '../NotFound/NotFound';
 import ProtectedRoute from '../protectedRoute/ProtectedRoute';
 import './App.css';
+import Notification from '../Notification/Notification';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -30,6 +31,8 @@ function App() {
   const [loginError, setLoginError] = useState('');
   const [userUpdateError, setUserUpdateError] = useState('');
   const [userUpdateSuccess, setUserUpdateSuccess] = useState(false);
+
+  const [notification, setNotification] = useState({ type: '', text: '', active: false });
 
   const { pathname } = useLocation();
   const history = useHistory();
@@ -118,7 +121,7 @@ function App() {
       .then((data) => {
         if (data?.token) {
           localStorage.setItem('jwt', data.token);
-          setLoggedIn(true);
+          // setLoggedIn(true);
           setLoginError('');
           handleTokenCheck();
         }
@@ -218,10 +221,14 @@ function App() {
             const newState = state.map((movie) => (movie.movieId === newMovie.data.movieId) ? newMovie.data : movie);
             return newState;
           });
+          setNotification({ type: 'success', text: 'Фильм сохранен', active: true });
+          setTimeout(() => setNotification({ ...notification, active: false }), 2000);
         })
         .catch((errJson) => {
           errJson.then((err) => {
             console.log(err.message);
+            setNotification({ type: 'error', text: 'Что-то пошло не так', active: true });
+            setTimeout(() => setNotification({ ...notification, active: false }), 2000);
           });
         });
     } else {
@@ -236,10 +243,14 @@ function App() {
             })
             return newState;
           });
+          setNotification({ type: 'success', text: 'Фильм удален', active: true });
+          setTimeout(() => setNotification({ ...notification, active: false }), 2000);
         })
         .catch((errJson) => {
           errJson.then((err) => {
             console.log(err.message);
+            setNotification({ type: 'error', text: 'Что-то пошло не так', active: true });
+            setTimeout(() => setNotification({ ...notification, active: false }), 2000);
           });
         });
     }
@@ -312,6 +323,7 @@ function App() {
           </Switch>
         </main>
         {showFooter && <Footer />}
+        <Notification type={notification.type} message={notification.text} active={notification.active} />
       </div>
     </CurrentUserContext.Provider>
   );
