@@ -95,8 +95,10 @@
 
 .profile__message {
   margin: 0;
+  width: 100%;
   font-size: 10px;
   line-height: 1;
+  text-align: center;
   color: #04d600;
   position: absolute;
   top: -13px;

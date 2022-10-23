@@ -1,10 +1,12 @@
-import React from 'react'
+import React from 'react';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { Link } from 'react-router-dom';
 import { isAnythingChanged, isCorrectLength, isRequired, isValidEmail, isValidName } from '../../utils/validation';
 import useForm from '../../hooks/useForm';
 import './Profile.css';
 
-export default function Profile({ user, error, success, onSubmit, onLogout }) {
+export default function Profile({ error, success, onSubmit, onLogout }) {
+  const user = React.useContext(CurrentUserContext);
 
   const { values, isValid, setValid, errors, touched, changeHandler } = useForm(
     { name: user.name, email: user.email },
@@ -75,7 +77,7 @@ export default function Profile({ user, error, success, onSubmit, onLogout }) {
             disabled={!isValid}
           >
             Редактировать
-            {error && <p className='profile__message'>{error}</p>}
+            {error && <p className='profile__message profile__message_error'>{error}</p>}
             {success && <p className='profile__message'>Профиль отредактирован</p>}
           </button>
           <Link to='/' className='profile__signput' onClick={() => onLogout()}>

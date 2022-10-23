@@ -281,7 +281,6 @@ function App() {
               path='/profile'
               component={Profile}
               loggedIn={loggedIn}
-              user={currentUser}
               error={userUpdateError}
               success={userUpdateSuccess}
               onSubmit={handleUserUpdate}
