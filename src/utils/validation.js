@@ -3,6 +3,11 @@ export const isValidEmail = (email) => {
   return reg.test(email.toLowerCase())
 };
 
+export const isValidName = (name) => {
+  const reg = /^[A-Za-zА-Яа-я- ]+$/;
+  return reg.test(name);
+}
+
 export const isRequired = (value) => {
   return value != null && value.trim().length > 0;
 }
