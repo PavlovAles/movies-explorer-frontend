@@ -13,8 +13,8 @@ import NotFound from '../NotFound/NotFound';
 import { api } from '../../utils/MainApi';
 import * as auth from '../../utils/auth';
 import getAllMovies from '../../utils/MoviesApi';
-import './App.css';
 import ProtectedRoute from '../protectedRoute/ProtectedRoute';
+import './App.css';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -29,6 +29,7 @@ function App() {
   const [registerError, setRegisterError] = useState('');
   const [loginError, setLoginError] = useState('');
   const [userUpdateError, setUserUpdateError] = useState('');
+  const [userUpdateSuccess, setUserUpdateSuccess] = useState(false);
 
   const { pathname } = useLocation();
   const history = useHistory();
@@ -54,6 +55,7 @@ function App() {
     setRegisterError('');
     setLoginError('');
     setUserUpdateError('');
+    setUserUpdateSuccess(false)
   }, [pathname]);
 
   async function getAndSetMovies() {
@@ -162,11 +164,14 @@ function App() {
       .then((userInfo) => {
         setCurrentUser(userInfo.data);
         setUserUpdateError('');
+        setUserUpdateSuccess(true);
+        setTimeout(() => setUserUpdateSuccess(false), 3000);
       })
       .catch((errJson) => {
         errJson.then((err) => {
           console.log(err.message);
           setUserUpdateError(err.message);
+          setUserUpdateSuccess(false);
         });
       });
   }
@@ -278,6 +283,7 @@ function App() {
               loggedIn={loggedIn}
               user={currentUser}
               error={userUpdateError}
+              success={userUpdateSuccess}
               onSubmit={handleUserUpdate}
               onLogout={handleLogout}
             />
