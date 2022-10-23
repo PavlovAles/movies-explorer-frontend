@@ -16,6 +16,7 @@ import NotFound from '../NotFound/NotFound';
 import ProtectedRoute from '../protectedRoute/ProtectedRoute';
 import './App.css';
 import Notification from '../Notification/Notification';
+import { NOTIFICATION_TYPES } from '../../utils/constants';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -32,7 +33,7 @@ function App() {
   const [userUpdateError, setUserUpdateError] = useState('');
   const [userUpdateSuccess, setUserUpdateSuccess] = useState(false);
 
-  const [notification, setNotification] = useState({ type: '', text: '', active: false });
+  const [notificationList, setNotificationList] = useState([]);
 
   const { pathname } = useLocation();
   const history = useHistory();
@@ -49,6 +50,11 @@ function App() {
     pathname === '/movies' ||
     pathname === '/saved-movies'
   );
+
+  function addNotification(type, name) {
+    const notification = NOTIFICATION_TYPES[type][name];
+    setNotificationList([...notificationList, notification]);
+  }
 
   useEffect(() => {
     handleTokenCheck();
@@ -106,9 +112,11 @@ function App() {
         if (localStorage.getItem('filter')) {
           setFilter(JSON.parse(localStorage.getItem('filter')));
         }
+        addNotification('success', 'login');
         history.push('/saved-movies');
       })
       .catch((errJson) => {
+        addNotification('error', 'any');
         errJson.then((err) => {
           console.log(err.message);
         });
@@ -121,12 +129,12 @@ function App() {
       .then((data) => {
         if (data?.token) {
           localStorage.setItem('jwt', data.token);
-          // setLoggedIn(true);
           setLoginError('');
           handleTokenCheck();
         }
       })
       .catch((errJson) => {
+        addNotification('error', 'any');
         errJson.then((err) => {
           console.log(err.message);
           setLoginError(err.message);
@@ -152,8 +160,10 @@ function App() {
       .then((res) => {
         handleLogin(password, email);
         setRegisterError('');
+        addNotification('success', 'register');
       })
       .catch((errJson) => {
+        addNotification('error', 'any');
         errJson.then((err) => {
           console.log(err.message);
           setRegisterError(err.message);
@@ -169,12 +179,14 @@ function App() {
         setUserUpdateError('');
         setUserUpdateSuccess(true);
         setTimeout(() => setUserUpdateSuccess(false), 3000);
+        addNotification('success', 'profileUpdate');
       })
       .catch((errJson) => {
         errJson.then((err) => {
           console.log(err.message);
           setUserUpdateError(err.message);
           setUserUpdateSuccess(false);
+          addNotification('error', 'any');
         });
       });
   }
@@ -221,14 +233,12 @@ function App() {
             const newState = state.map((movie) => (movie.movieId === newMovie.data.movieId) ? newMovie.data : movie);
             return newState;
           });
-          setNotification({ type: 'success', text: 'Фильм сохранен', active: true });
-          setTimeout(() => setNotification({ ...notification, active: false }), 2000);
+          addNotification('success', 'like');
         })
         .catch((errJson) => {
           errJson.then((err) => {
             console.log(err.message);
-            setNotification({ type: 'error', text: 'Что-то пошло не так', active: true });
-            setTimeout(() => setNotification({ ...notification, active: false }), 2000);
+            addNotification('error', 'any');
           });
         });
     } else {
@@ -243,14 +253,12 @@ function App() {
             })
             return newState;
           });
-          setNotification({ type: 'success', text: 'Фильм удален', active: true });
-          setTimeout(() => setNotification({ ...notification, active: false }), 2000);
+          addNotification('success', 'dislike');
         })
         .catch((errJson) => {
           errJson.then((err) => {
             console.log(err.message);
-            setNotification({ type: 'error', text: 'Что-то пошло не так', active: true });
-            setTimeout(() => setNotification({ ...notification, active: false }), 2000);
+            addNotification('error', 'any');
           });
         });
     }
@@ -323,7 +331,7 @@ function App() {
           </Switch>
         </main>
         {showFooter && <Footer />}
-        <Notification type={notification.type} message={notification.text} active={notification.active} />
+        <Notification notificationList={notificationList} />
       </div>
     </CurrentUserContext.Provider>
   );
