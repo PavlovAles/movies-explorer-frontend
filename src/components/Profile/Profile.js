@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import useForm from '../../hooks/useForm';
-import { isAnythingChanged, isRequired, isValidEmail } from '../../utils/validation';
+import { isAnythingChanged, isRequired, isValidEmail, isValidName } from '../../utils/validation';
 import './Profile.css';
 
 export default function Profile({ user, onSubmit, onLogout }) {
@@ -10,6 +10,7 @@ export default function Profile({ user, onSubmit, onLogout }) {
     { name: user.name, email: user.email },
     [
       ({ name }) => isRequired(name) || { name: 'Имя - обязательное поле' },
+      ({ name }) => isValidName(name) || { name: 'Допустимы только латиница, кириллица, пробел или дефис' },
       ({ email }) => isValidEmail(email) || { email: 'Невалидный E-mail' },
       ({ email }) => isRequired(email) || { email: 'E-mail - обязательное поле' },
       (values) => isAnythingChanged(values , user) || { values: '' },
