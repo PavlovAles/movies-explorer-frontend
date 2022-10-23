@@ -60,6 +60,10 @@
   bottom: -13px;
 }
 
+.register-form__error_top {
+  top: -13px;
+}
+
 .register-form__input {
   width: 100%;
   margin-top: 10px;

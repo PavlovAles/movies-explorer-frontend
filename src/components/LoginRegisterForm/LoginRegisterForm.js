@@ -98,7 +98,7 @@ export default function LoginRegisterForm({ type, formName, title, submitText, e
         onSubmit={handleSubmit}
       >
         {submitText}
-        {error && <p className='register-form__error'>{error}</p>}
+        {error && <p className='register-form__error register-form__error_top'>{error}</p>}
       </button>
     </form>
   );
