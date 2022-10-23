@@ -1,23 +1,31 @@
-import React from 'react';
-import { isRequired, isValidEmail } from '../../utils/validation';
+import React, { useEffect } from 'react';
+import { isCorrectLength, isRequired, isValidEmail, isValidName } from '../../utils/validation';
+import { useLocation } from 'react-router-dom';
 import useForm from '../../hooks/useForm';
 import './LoginRegisterForm.css';
 
-export default function LoginRegisterForm({ type, formName, title, submitText, onSubmit }) {
-  const { values, setValues, isValid, errors, touched, changeHandler } = useForm(
+export default function LoginRegisterForm({ type, formName, title, submitText, error, onSubmit }) {
+  const { values, isValid, errors, touched, changeHandler, reset } = useForm(
     { name: '', email: '', password: '' },
     [
-      ({ name }) =>  (type === 'signin') || isRequired(name) || { name: 'Имя - обязательное поле' },
+      ({ name }) => (type === 'signin') || isValidName(name) || { name: 'Допустимы только латиница, кириллица, пробел или дефис' },
+      ({ name }) => (type === 'signin') || isCorrectLength(name, 2, 30) || { name: 'Длина имени должна быть от 2 до 30 символов' },
+      ({ name }) => (type === 'signin') || isRequired(name) || { name: 'Имя - обязательное поле' },
       ({ email }) => isValidEmail(email) || { email: 'Невалидный E-mail' },
       ({ email }) => isRequired(email) || { email: 'E-mail - обязательное поле' },
       ({ password }) => isRequired(password) || { password: 'Пароль - обязательное поле' },
     ],
   );
 
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    reset();
+  }, [pathname, reset]);
+
   function handleSubmit(e) {
     e.preventDefault();
     type === 'signup' ? onSubmit(values.name, values.password, values.email) : onSubmit(values.password, values.email);
-    setValues({ name: '', email: '', password: '' });
   }
 
   return (
@@ -28,13 +36,13 @@ export default function LoginRegisterForm({ type, formName, title, submitText, o
           <>
             <label
               htmlFor='name'
-              className='register-form__label'>
+              className='register-form__label'
+            >
               Имя
               <input
                 type='text'
                 id='name'
                 name='name'
-                minLength={1}
                 maxLength={200}
                 required
                 autoComplete='off'
@@ -48,13 +56,13 @@ export default function LoginRegisterForm({ type, formName, title, submitText, o
         }
         <label
           htmlFor='email'
-          className='register-form__label'>
+          className='register-form__label'
+        >
           E-mail
           <input
             type='email'
             id='email'
             name='email'
-            minLength={6}
             maxLength={200}
             required
             autoComplete='off'
@@ -66,13 +74,13 @@ export default function LoginRegisterForm({ type, formName, title, submitText, o
         </label>
         <label
           htmlFor='password'
-          className='register-form__label'>
+          className='register-form__label'
+        >
           Пароль
           <input
             type='password'
             id='password'
             name='password'
-            minLength={4}
             maxLength={200}
             required
             autoComplete='off'
@@ -90,6 +98,7 @@ export default function LoginRegisterForm({ type, formName, title, submitText, o
         onSubmit={handleSubmit}
       >
         {submitText}
+        {error && <p className='register-form__error'>{error}</p>}
       </button>
     </form>
   );

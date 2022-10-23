@@ -26,8 +26,11 @@ function App() {
   const [filter, setFilter] = useState({ query: '', shorts: false });
   const [favoriteFilter, setFavoriteFilter] = useState({ query: '', shorts: false });
   const [status, setStatus] = useState('success');
-  const { pathname } = useLocation();
+  const [registerError, setRegisterError] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [userUpdateError, setUserUpdateError] = useState('');
 
+  const { pathname } = useLocation();
   const history = useHistory();
 
   const showHeader = (
@@ -42,6 +45,16 @@ function App() {
     pathname === '/movies' ||
     pathname === '/saved-movies'
   );
+
+  useEffect(() => {
+    handleTokenCheck();
+  }, []);
+
+  useEffect(() => {
+    setRegisterError('');
+    setLoginError('');
+    setUserUpdateError('');
+  }, [pathname]);
 
   async function getAndSetMovies() {
     setStatus('loading');
@@ -73,10 +86,6 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    handleTokenCheck();
-  }, []);
-
   //user
   function handleTokenCheck() {
     if (!localStorage.getItem('jwt')) {
@@ -94,9 +103,9 @@ function App() {
         }
         history.push('/saved-movies');
       })
-      .catch((err) => {
-        err.then((err) => {
-          console.log(err);
+      .catch((errJson) => {
+        errJson.then((err) => {
+          console.log(err.message);
         });
       });
   }
@@ -108,12 +117,14 @@ function App() {
         if (data?.token) {
           localStorage.setItem('jwt', data.token);
           setLoggedIn(true);
+          setLoginError('');
           handleTokenCheck();
         }
       })
       .catch((errJson) => {
         errJson.then((err) => {
-          console.log(`Error: ${err.message}`);
+          console.log(err.message);
+          setLoginError(err.message);
         });
       });
   }
@@ -135,10 +146,12 @@ function App() {
       .register(name, password, email)
       .then((res) => {
         handleLogin(password, email);
+        setRegisterError('');
       })
-      .catch((err) => {
-        err.then((err) => {
-          console.log(err);
+      .catch((errJson) => {
+        errJson.then((err) => {
+          console.log(err.message);
+          setRegisterError(err.message);
         });
       });
   }
@@ -148,10 +161,12 @@ function App() {
       .setProfile(userInfo)
       .then((userInfo) => {
         setCurrentUser(userInfo.data);
+        setUserUpdateError('');
       })
-      .catch((err) => {
-        err.then((err) => {
+      .catch((errJson) => {
+        errJson.then((err) => {
           console.log(err.message);
+          setUserUpdateError(err.message);
         });
       });
   }
@@ -262,6 +277,7 @@ function App() {
               component={Profile}
               loggedIn={loggedIn}
               user={currentUser}
+              error={userUpdateError}
               onSubmit={handleUserUpdate}
               onLogout={handleLogout}
             />
@@ -271,6 +287,7 @@ function App() {
                 formName='signin'
                 title='Рады видеть!'
                 submitText='Войти'
+                error={loginError}
                 onSubmit={handleLogin}
               />
             </Route>
@@ -280,6 +297,7 @@ function App() {
                 formName='signup'
                 title='Добро пожаловать!'
                 submitText='Зарегистрироваться'
+                error={registerError}
                 onSubmit={handleRegistration}
               />
             </Route>

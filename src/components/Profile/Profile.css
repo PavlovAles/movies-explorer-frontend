@@ -93,6 +93,10 @@
   bottom: -13px;
 }
 
+.profile__error_top {
+  top: -13px;
+}
+
 .profile__input {
   width: 100%;
   margin-left: 8px;
@@ -121,6 +125,7 @@
   border-radius: 3px;
   background-color: #3456f3;
   cursor: pointer;
+  position: relative;
 }
 
 .profile__submit:disabled {

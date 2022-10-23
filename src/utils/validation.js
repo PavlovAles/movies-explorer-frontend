@@ -9,7 +9,11 @@ export const isValidName = (name) => {
 }
 
 export const isRequired = (value) => {
-  return value != null && value.trim().length > 0;
+  return value != null;
+}
+
+export const isCorrectLength = (value, min, max) => {
+  return value != null && value.trim().length >= min && value.trim().length <= max;
 }
 
 export const isNew = (newValue, oldValue) => newValue !== oldValue;

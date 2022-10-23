@@ -5,14 +5,14 @@ import LoginSigninForm from '../LoginRegisterForm/LoginRegisterForm';
 import './LoginRegister.css';
 
 
-export default function LoginRegister({ type, formName, title, submitText, onSubmit }) {
+export default function LoginRegister({ type, formName, title, submitText, error, onSubmit }) {
   return (
     <section className='register'>
       <div className='register__wrapper'>
         <Link to='/' className='register__homelink'>
           <img src={logo} className='register__logo' alt='Логотип' />
         </Link>
-        <LoginSigninForm type={type} formName={formName} title={title} submitText={submitText} onSubmit={onSubmit} />
+        <LoginSigninForm type={type} formName={formName} title={title} submitText={submitText} error={error} onSubmit={onSubmit} />
         {type === 'signup' ?
           <p className='register__redirect'>
             Уже зарегистрированы?

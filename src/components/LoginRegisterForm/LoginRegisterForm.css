@@ -89,6 +89,7 @@
   border-style: none;
   border-radius: 3px;
   background-color: #3456f3;
+  position: relative;
   cursor: pointer;
 }
 

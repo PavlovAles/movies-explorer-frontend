@@ -1,19 +1,20 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { isAnythingChanged, isCorrectLength, isRequired, isValidEmail, isValidName } from '../../utils/validation';
 import useForm from '../../hooks/useForm';
-import { isAnythingChanged, isRequired, isValidEmail, isValidName } from '../../utils/validation';
 import './Profile.css';
 
-export default function Profile({ user, onSubmit, onLogout }) {
+export default function Profile({ user, error, onSubmit, onLogout }) {
 
   const { values, isValid, setValid, errors, touched, changeHandler } = useForm(
     { name: user.name, email: user.email },
     [
-      ({ name }) => isRequired(name) || { name: 'Имя - обязательное поле' },
       ({ name }) => isValidName(name) || { name: 'Допустимы только латиница, кириллица, пробел или дефис' },
+      ({ name }) => isCorrectLength(name, 2, 30) || { name: 'Длина имени должна быть от 2 до 30 символов' },
+      ({ name }) => isRequired(name) || { name: 'Имя - обязательное поле' },
       ({ email }) => isValidEmail(email) || { email: 'Невалидный E-mail' },
       ({ email }) => isRequired(email) || { email: 'E-mail - обязательное поле' },
-      (values) => isAnythingChanged(values , user) || { values: '' },
+      (values) => isAnythingChanged(values, user) || { values: '' },
     ],
   );
 
@@ -74,6 +75,7 @@ export default function Profile({ user, onSubmit, onLogout }) {
             disabled={!isValid}
           >
             Редактировать
+            {error && <p className='profile__error profile__error_top'>{error}</p>}
           </button>
           <Link to='/' className='profile__signput' onClick={() => onLogout()}>
             Выйти из аккаунта
