@@ -1,5 +1,4 @@
-// const BASE_URL = 'https://ales.movies.nomoredomains.icu';
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'https://ales.movies.nomoredomains.icu';
 
 function checkResponse(res) {
   if (res.ok) {
