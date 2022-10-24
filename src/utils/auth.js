@@ -1,4 +1,4 @@
-const BASE_URL = 'https://ales.movies.nomoredomains.icu';
+const BASE_URL = 'https://api.ales.movies.nomoredomains.icu';
 
 function checkResponse(res) {
   if (res.ok) {
