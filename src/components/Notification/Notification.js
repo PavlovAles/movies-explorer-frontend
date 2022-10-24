@@ -11,7 +11,7 @@ export default function Notification({ notificationList }) {
   }, [notificationList]);
 
   useEffect(() => {
-    function deleteToast(id) {
+    function deleteNotification(id) {
       const listItemIndex = list.findIndex(e => e.id === id);
       const toastListItem = notificationList.findIndex(e => e.id === id);
       list.splice(listItemIndex, 1);
@@ -21,7 +21,7 @@ export default function Notification({ notificationList }) {
 
     const interval = setInterval(() => {
       if (notificationList.length && list.length) {
-        deleteToast(notificationList[0].id);
+        deleteNotification(notificationList[0].id);
       }
     }, 1500);
 
@@ -32,9 +32,16 @@ export default function Notification({ notificationList }) {
 
   return (
     <ul className='notification__container'>
-      {list.map(item => (
-        <div key={item.id} className={`notification__item ${'notification__item_' + item.type}`}>
-          <img className='notification__icon' src={(item.type === 'success') ? successIcon : errorIcon} alt='Иконка' />
+      {list.map((item, ind) => (
+        <div
+          key={ind}
+          className={`notification__item ${'notification__item_' + item.type}`}
+        >
+          <img
+            className='notification__icon'
+            src={(item.type === 'success') ? successIcon : errorIcon}
+            alt='Иконка'
+          />
           {item.text}
         </div>
       ))}

@@ -4,6 +4,7 @@ import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { api } from '../../utils/MainApi';
 import * as auth from '../../utils/auth';
+import { generateId } from '../../utils/utils';
 import getAllMovies from '../../utils/MoviesApi';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
@@ -14,9 +15,9 @@ import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 import NotFound from '../NotFound/NotFound';
 import ProtectedRoute from '../protectedRoute/ProtectedRoute';
-import './App.css';
 import Notification from '../Notification/Notification';
 import { NOTIFICATION_TYPES } from '../../utils/constants';
+import './App.css';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -53,6 +54,7 @@ function App() {
 
   function addNotification(type, name) {
     const notification = NOTIFICATION_TYPES[type][name];
+    notification.id = generateId();
     setNotificationList([...notificationList, notification]);
   }
 
@@ -179,14 +181,14 @@ function App() {
         setUserUpdateError('');
         setUserUpdateSuccess(true);
         setTimeout(() => setUserUpdateSuccess(false), 3000);
-        addNotification('success', 'profileUpdate');
+        addNotification('success', 'userUpdate');
       })
       .catch((errJson) => {
+        addNotification('error', 'any');
         errJson.then((err) => {
           console.log(err.message);
           setUserUpdateError(err.message);
           setUserUpdateSuccess(false);
-          addNotification('error', 'any');
         });
       });
   }
@@ -236,9 +238,9 @@ function App() {
           addNotification('success', 'like');
         })
         .catch((errJson) => {
+          addNotification('error', 'any');
           errJson.then((err) => {
             console.log(err.message);
-            addNotification('error', 'any');
           });
         });
     } else {
@@ -256,9 +258,9 @@ function App() {
           addNotification('success', 'dislike');
         })
         .catch((errJson) => {
+          addNotification('error', 'any');
           errJson.then((err) => {
             console.log(err.message);
-            addNotification('error', 'any');
           });
         });
     }
