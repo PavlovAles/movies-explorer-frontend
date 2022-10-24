@@ -32,8 +32,6 @@ function App() {
   const [registerError, setRegisterError] = useState('');
   const [loginError, setLoginError] = useState('');
   const [userUpdateError, setUserUpdateError] = useState('');
-  const [userUpdateSuccess, setUserUpdateSuccess] = useState(false);
-
   const [notificationList, setNotificationList] = useState([]);
 
   const { pathname } = useLocation();
@@ -66,7 +64,6 @@ function App() {
     setRegisterError('');
     setLoginError('');
     setUserUpdateError('');
-    setUserUpdateSuccess(false)
   }, [pathname]);
 
   async function getAndSetMovies() {
@@ -117,11 +114,8 @@ function App() {
         addNotification('success', 'login');
         history.push('/saved-movies');
       })
-      .catch((errJson) => {
+      .catch((err) => {
         addNotification('error', 'any');
-        errJson.then((err) => {
-          console.log(err.message);
-        });
       });
   }
 
@@ -138,7 +132,6 @@ function App() {
       .catch((errJson) => {
         addNotification('error', 'any');
         errJson.then((err) => {
-          console.log(err.message);
           setLoginError(err.message);
         });
       });
@@ -167,7 +160,6 @@ function App() {
       .catch((errJson) => {
         addNotification('error', 'any');
         errJson.then((err) => {
-          console.log(err.message);
           setRegisterError(err.message);
         });
       });
@@ -179,16 +171,12 @@ function App() {
       .then((userInfo) => {
         setCurrentUser(userInfo.data);
         setUserUpdateError('');
-        setUserUpdateSuccess(true);
-        setTimeout(() => setUserUpdateSuccess(false), 3000);
         addNotification('success', 'userUpdate');
       })
       .catch((errJson) => {
         addNotification('error', 'any');
         errJson.then((err) => {
-          console.log(err.message);
           setUserUpdateError(err.message);
-          setUserUpdateSuccess(false);
         });
       });
   }
@@ -239,9 +227,6 @@ function App() {
         })
         .catch((errJson) => {
           addNotification('error', 'any');
-          errJson.then((err) => {
-            console.log(err.message);
-          });
         });
     } else {
       api
@@ -259,9 +244,6 @@ function App() {
         })
         .catch((errJson) => {
           addNotification('error', 'any');
-          errJson.then((err) => {
-            console.log(err.message);
-          });
         });
     }
   }
@@ -303,7 +285,6 @@ function App() {
               component={Profile}
               loggedIn={loggedIn}
               error={userUpdateError}
-              success={userUpdateSuccess}
               onSubmit={handleUserUpdate}
               onLogout={handleLogout}
             />

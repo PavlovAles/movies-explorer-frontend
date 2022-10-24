@@ -5,7 +5,7 @@ import { isAnythingChanged, isCorrectLength, isRequired, isValidEmail, isValidNa
 import useForm from '../../hooks/useForm';
 import './Profile.css';
 
-export default function Profile({ error, success, onSubmit, onLogout }) {
+export default function Profile({ error, onSubmit, onLogout }) {
   const user = React.useContext(CurrentUserContext);
 
   const { values, isValid, setValid, errors, touched, changeHandler } = useForm(
@@ -77,10 +77,9 @@ export default function Profile({ error, success, onSubmit, onLogout }) {
             disabled={!isValid}
           >
             Редактировать
-            {error && <p className='profile__message profile__message_error'>{error}</p>}
-            {success && <p className='profile__message'>Профиль отредактирован</p>}
+            {error && <p className='profile__error profile__error_top'>{error}</p>}
           </button>
-          <Link to='/' className='profile__signput' onClick={() => onLogout()}>
+          <Link to='/' className='profile__signout' onClick={() => onLogout()}>
             Выйти из аккаунта
           </Link>
         </form>
