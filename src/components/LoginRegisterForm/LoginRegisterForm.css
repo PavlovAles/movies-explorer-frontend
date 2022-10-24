@@ -95,6 +95,11 @@
   background-color: #3456f3;
   position: relative;
   cursor: pointer;
+  transition: opacity 0.2s linear;
+}
+
+.register-form__submit:hover {
+  opacity: 0.8;
 }
 
 .register-form__submit:disabled {

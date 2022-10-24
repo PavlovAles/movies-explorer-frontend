@@ -128,6 +128,11 @@
   background-color: #3456f3;
   cursor: pointer;
   position: relative;
+  transition: opacity 0.2s linear;
+}
+
+.profile__submit:hover {
+  opacity: 0.8;
 }
 
 .profile__submit:disabled {

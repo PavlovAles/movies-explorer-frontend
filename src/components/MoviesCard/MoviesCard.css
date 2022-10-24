@@ -112,7 +112,7 @@
   background-position: center;
   transform: translateY(-5px);
   cursor: pointer;
-  transition: opacity 0.3s linear;
+  transition: opacity 0.2s linear;
 }
 
 .card__button:hover {
