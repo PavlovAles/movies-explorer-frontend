@@ -112,7 +112,7 @@ function App() {
           setFilter(JSON.parse(localStorage.getItem('filter')));
         }
         addNotification('success', 'login');
-        history.push('/saved-movies');
+        history.push('/movies');
       })
       .catch((err) => {
         addNotification('error', 'any');
