@@ -16,7 +16,7 @@ import Header from '../Header/Header';
 import NotFound from '../NotFound/NotFound';
 import ProtectedRoute from '../protectedRoute/ProtectedRoute';
 import Notification from '../Notification/Notification';
-import { NOTIFICATION_TYPES } from '../../utils/constants';
+import { NOTIFICATION_TYPES, SHORT_MOVIE_DURATION } from '../../utils/constants';
 import './App.css';
 
 function App() {
@@ -208,7 +208,10 @@ function App() {
     if (filter.query) {
       const filteredCollection = movieList.filter(movie => {
         return movie.nameRU.toLowerCase().includes(filter.query) &&
-          ((filter.shorts && movie.duration < 40) || (!filter.shorts && movie.duration > 40));
+          (
+            (filter.shorts && movie.duration < SHORT_MOVIE_DURATION) ||
+            (!filter.shorts && movie.duration > SHORT_MOVIE_DURATION)
+          );
       })
       return filteredCollection;
     }
@@ -220,7 +223,10 @@ function App() {
     if (favoriteFilter.query) {
       const filteredCollection = favoriteMovies.filter(movie => {
         return movie.nameRU.toLowerCase().includes(favoriteFilter.query) &&
-          ((favoriteFilter.shorts && movie.duration < 40) || (!favoriteFilter.shorts && movie.duration > 40));
+          (
+            (favoriteFilter.shorts && movie.duration < SHORT_MOVIE_DURATION) ||
+            (!favoriteFilter.shorts && movie.duration > SHORT_MOVIE_DURATION)
+          );
       })
       return filteredCollection;
     }

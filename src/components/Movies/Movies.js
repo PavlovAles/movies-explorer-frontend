@@ -5,6 +5,13 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 import SearchForm from '../SearchForm/SearchForm';
 import NoResultsOrError from '../NoResultsOrError/NoResultsOrError';
+import { 
+  BIG_SCREEN_CARDS_TO_ADD,
+  BIG_SCREEN_INITIAL_CARDS_AMOUNT, 
+  MEDIUM_SCREEN_INITIAL_CARDS_AMOUNT, 
+  SMALL_SCREEN_CARDS_TO_ADD, 
+  SMALL_SCREEN_INITIAL_CARDS_AMOUNT 
+} from '../../utils/constants';
 import './Movies.css';
 
 export default function Movies({ movies, status, filter, filterFunction, onSearch, onLikeClick }) {
@@ -18,8 +25,10 @@ export default function Movies({ movies, status, filter, filterFunction, onSearc
     const newFilteredMovies = filterFunction();
     setFilteredMovies(newFilteredMovies);
 
-    setCardsToAdd(windowWidth >= 1018 ? 3 : 2);
-    const initialAmount = windowWidth >= 1018 ? 12 : windowWidth > 587 ? 8 : 5;
+    setCardsToAdd(windowWidth >= 1018 ? BIG_SCREEN_CARDS_TO_ADD : SMALL_SCREEN_CARDS_TO_ADD);
+    const initialAmount = windowWidth >= 1018 ? BIG_SCREEN_INITIAL_CARDS_AMOUNT :
+                          windowWidth > 587 ? MEDIUM_SCREEN_INITIAL_CARDS_AMOUNT :
+                          SMALL_SCREEN_INITIAL_CARDS_AMOUNT;
     if (filter !== prevFilter.current) {
       setCardsAmount(Math.min(initialAmount, newFilteredMovies.length));
     }
