@@ -9,7 +9,7 @@ export const isValidName = (name) => {
 }
 
 export const isRequired = (value) => {
-  return value != null;
+  return value != null && value.length;
 }
 
 export const isCorrectLength = (value, min, max) => {
