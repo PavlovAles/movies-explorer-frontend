@@ -89,8 +89,11 @@ function App() {
           _id: favoriteCard ? favoriteCard._id : null,
         }
       });
-      setStatus('success')
+      setStatus('success');
       setMovieList(allMovies);
+      if (localStorage.getItem('filter')) {
+        setFilter(JSON.parse(localStorage.getItem('filter')));
+      }
     } catch (err) {
       console.log(err);
       setStatus('error');
@@ -103,17 +106,15 @@ function App() {
       return;
     }
     const jwt = localStorage.getItem('jwt');
+    const path = pathname;
     auth
       .checkToken(jwt)
       .then((res) => {
         setCurrentUser(res.data);
         setLoggedIn(true);
         getAndSetMovies();
-        if (localStorage.getItem('filter')) {
-          setFilter(JSON.parse(localStorage.getItem('filter')));
-        }
         addNotification('success', 'login');
-        history.push('/movies');
+        history.push(path)
       })
       .catch((err) => {
         addNotification('error', 'any');
@@ -123,11 +124,15 @@ function App() {
   function handleLogin(password, email) {
     auth
       .authorize(password, email)
-      .then((data) => {
-        if (data?.token) {
-          localStorage.setItem('jwt', data.token);
+      .then((res) => {
+        if (res?.token) {
+          localStorage.setItem('jwt', res.token);
           setLoginError('');
-          handleTokenCheck();
+          setCurrentUser(res.data);
+          setLoggedIn(true);
+          getAndSetMovies();
+          addNotification('success', 'login');
+          history.push('/movies');
         }
       })
       .catch((errJson) => {
