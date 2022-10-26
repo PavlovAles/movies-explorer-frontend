@@ -32,6 +32,7 @@ function App() {
   const [registerError, setRegisterError] = useState('');
   const [loginError, setLoginError] = useState('');
   const [userUpdateError, setUserUpdateError] = useState('');
+  const [userUpdateSuccess, setUserUpdateSuccess] = useState(false);
   const [notificationList, setNotificationList] = useState([]);
 
   const { pathname } = useLocation();
@@ -171,6 +172,8 @@ function App() {
       .then((userInfo) => {
         setCurrentUser(userInfo.data);
         setUserUpdateError('');
+        setUserUpdateSuccess(true);
+        setTimeout(() => setUserUpdateSuccess(false), 2000);
         addNotification('success', 'userUpdate');
       })
       .catch((errJson) => {
@@ -284,6 +287,7 @@ function App() {
               path='/profile'
               component={Profile}
               loggedIn={loggedIn}
+              success={userUpdateSuccess}
               error={userUpdateError}
               onSubmit={handleUserUpdate}
               onLogout={handleLogout}

@@ -93,10 +93,19 @@
   bottom: -13px;
 }
 
-.profile__error_top {
+.profile__message {
+  margin: 0;
   width: 100%;
-  top: -13px;
+  font-size: 10px;
+  line-height: 1;
   text-align: center;
+  color: #04d600;
+  position: absolute;
+  top: -13px;
+}
+
+.profile__message_error {
+  color: red;
 }
 
 .profile__input {
