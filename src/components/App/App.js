@@ -100,6 +100,18 @@ function App() {
     }
   };
 
+  function deleteUserInfo() {
+    setLoggedIn(false);
+    setCurrentUser({
+      name: '',
+      email: '',
+    });
+    setFilter({ query: '', shorts: false });
+    setFavoriteFilter({ query: '', shorts: false });
+    localStorage.removeItem('jwt');
+    localStorage.removeItem('filter');
+  }
+
   //user
   function handleTokenCheck() {
     if (!localStorage.getItem('jwt')) {
@@ -117,6 +129,7 @@ function App() {
         history.push(path)
       })
       .catch((err) => {
+        deleteUserInfo();
         addNotification('error', 'any');
       });
   }
@@ -144,15 +157,7 @@ function App() {
   }
 
   function handleLogout() {
-    setLoggedIn(false);
-    setCurrentUser({
-      name: '',
-      email: '',
-    });
-    setFilter({ query: '', shorts: false });
-    setFavoriteFilter({ query: '', shorts: false });
-    localStorage.removeItem('jwt');
-    localStorage.removeItem('filter');
+    deleteUserInfo();
   }
 
   function handleRegistration(name, password, email) {
