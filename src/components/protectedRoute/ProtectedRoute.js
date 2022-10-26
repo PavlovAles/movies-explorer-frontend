@@ -8,7 +8,7 @@ export default function ProtectedRoute({
 }) {
   return (
     <Route>
-      {loggedIn ? <Component {...props} /> : <Redirect to='/signin' />}
+      {loggedIn ? <Component {...props} /> : <Redirect to='/' />}
     </Route>
   );
 }
