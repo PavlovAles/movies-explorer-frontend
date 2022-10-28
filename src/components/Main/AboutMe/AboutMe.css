@@ -1,5 +1,6 @@
 .student {
   max-width: 1280px;
+  margin: 0 auto;
   padding: 110px 70px 107px;
   box-sizing: border-box;
 }
@@ -10,7 +11,7 @@
   }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 645px) {
   .student {
     padding: 70px 14px 51px;
   }
@@ -23,7 +24,7 @@
   gap: 49px;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 645px) {
   .student__article {
     margin-top: 60px;
     flex-direction: column-reverse;
@@ -37,7 +38,7 @@
   flex-direction: column;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 645px) {
   .student__text-wrapper {
     max-width: 400px;
   }
@@ -119,7 +120,7 @@
   color: #000;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 645px) {
   .student__gh {
     margin-top: 40px;
   }

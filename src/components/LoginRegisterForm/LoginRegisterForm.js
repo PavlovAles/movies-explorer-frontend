@@ -1,97 +1,104 @@
-import React, { useState } from 'react'
-import './LoginRegisterForm.css'
+import React, { useEffect } from 'react';
+import { isCorrectLength, isRequired, isValidEmail, isValidName } from '../../utils/validation';
+import { useLocation } from 'react-router-dom';
+import useForm from '../../hooks/useForm';
+import './LoginRegisterForm.css';
 
-export default function LoginRegisterForm({ type, formName, title, submitText, onSubmit }) {
+export default function LoginRegisterForm({ type, formName, title, submitText, error, onSubmit }) {
+  const { values, isValid, errors, touched, changeHandler, reset } = useForm(
+    { name: '', email: '', password: '' },
+    [
+      ({ name }) => (type === 'signin') || isValidName(name) || { name: 'Допустимы только латиница, кириллица, пробел или дефис' },
+      ({ name }) => (type === 'signin') || isCorrectLength(name, 2, 30) || { name: 'Длина имени должна быть от 2 до 30 символов' },
+      ({ name }) => (type === 'signin') || isRequired(name) || { name: 'Имя - обязательное поле' },
+      ({ email }) => isValidEmail(email) || { email: 'Невалидный E-mail' },
+      ({ email }) => isRequired(email) || { email: 'E-mail - обязательное поле' },
+      ({ password }) => isRequired(password) || { password: 'Пароль - обязательное поле' },
+    ],
+  );
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { pathname } = useLocation();
 
-  function handleChange(e) {
-    if (e.target.name === 'email') {
-      setEmail(e.target.value);
-      return;
-    }
-    if (e.target.name === 'password') {
-      setPassword(e.target.value);
-      return;
-    }
-    setName(e.target.value);
-  }
+  useEffect(() => {
+    reset();
+  }, [pathname, reset]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    onSubmit(password, email);
-    setEmail('');
-    setPassword('');
+    type === 'signup' ? onSubmit(values.name, values.password, values.email) : onSubmit(values.password, values.email);
   }
 
   return (
-    <form className='register-form' name={formName} onSubmit={handleSubmit}>
+    <form className='register-form' name={formName} onSubmit={handleSubmit} noValidate>
       <h2 className='register-form__title'>{title}</h2>
       <fieldset className='register-form__fieldset'>
         {type === 'signup' &&
           <>
             <label
               htmlFor='name'
-              className='register-form__label'>
+              className='register-form__label'
+            >
               Имя
+              <input
+                type='text'
+                id='name'
+                name='name'
+                maxLength={200}
+                required
+                autoComplete='off'
+                className='register-form__input'
+                onChange={changeHandler}
+                value={values.name}
+              />
+              {touched.name && errors.name && <p className='register-form__error'>{errors.name}</p>}
             </label>
-            <input
-              type='text'
-              id='name'
-              name='name'
-              minLength={1}
-              maxLength={200}
-              required
-              autoComplete='off'
-              className='register-form__input'
-              onChange={handleChange}
-              value={name}
-            />
           </>
         }
         <label
           htmlFor='email'
-          className='register-form__label'>
+          className='register-form__label'
+        >
           E-mail
+          <input
+            type='email'
+            id='email'
+            name='email'
+            maxLength={200}
+            required
+            autoComplete='off'
+            className='register-form__input'
+            onChange={changeHandler}
+            value={values.email}
+          />
+          {touched.email && errors.email && <p className='register-form__error'>{errors.email}</p>}
         </label>
-        <input
-          type='email'
-          id='email'
-          name='email'
-          minLength={6}
-          maxLength={200}
-          required
-          autoComplete='off'
-          className='register-form__input'
-          onChange={handleChange}
-          value={email}
-        />
         <label
           htmlFor='password'
-          className='register-form__label'>
+          className='register-form__label'
+        >
           Пароль
+          <input
+            type='password'
+            id='password'
+            name='password'
+            maxLength={200}
+            required
+            autoComplete='off'
+            className='register-form__input'
+            onChange={changeHandler}
+            value={values.password}
+          />
+          {touched.password && errors.password && <p className='register-form__error'>{errors.password}</p>}
         </label>
-        <input
-          type='password'
-          id='password'
-          name='password'
-          minLength={4}
-          maxLength={200}
-          required
-          autoComplete='off'
-          className='register-form__input'
-          onChange={handleChange}
-          value={password}
-        />
       </fieldset>
       <button
         className='register-form__submit'
         type='submit'
+        disabled={!isValid}
         onSubmit={handleSubmit}
       >
         {submitText}
+        {error && <p className='register-form__error register-form__error_top'>{error}</p>}
       </button>
     </form>
   );

@@ -6,7 +6,7 @@
   list-style: none;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 645px) {
   .unauthorized-navigation__list {
     gap: 14px;
   }

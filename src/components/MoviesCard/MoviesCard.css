@@ -17,6 +17,11 @@
   }
 }
 
+.card__trailerlink {
+  font-size: 0;
+  line-height: 0;
+}
+
 .card__image {
   width: 100%;
   height: 203px;
@@ -107,11 +112,11 @@
   background-position: center;
   transform: translateY(-5px);
   cursor: pointer;
-  transition: opacity 0.3s linear;
+  transition: scale 0.2s linear;
 }
 
 .card__button:hover {
-  opacity: 0.8;
+  scale: 1.2;
 }
 
 .card__button_like {

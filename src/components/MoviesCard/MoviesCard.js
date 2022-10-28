@@ -1,24 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
+import formatDuration from '../../utils/formatDuration';
 import './MoviesCard.css';
 
-export default function MoviesCard({ card, favorite }) {
+export default function MoviesCard({ movie, favorite, onLikeClick }) {
+  const [liked, setLiked] = useState(movie._id !== null);
+
+  function handleLikeClick() {
+    setLiked(!liked);
+    onLikeClick(movie);
+  }
+
   return (
     <article className='card'>
-      <img className='card__image' src={card.url} alt={card.caption} />
+      <a className='card__trailerlink' href={movie.trailerLink} target='_blank' rel='noreferrer'>
+        <img className='card__image' src={movie.image} alt={movie.caption} />
+      </a>
       <div className='card__caption'>
         <h4 className='card__title'>
-          {card.name}
-          <p className='card__duration'>{card.duration}</p>
+          {movie.nameRU}
+          <p className='card__duration'>{formatDuration(movie.duration)}</p>
         </h4>
         {
           favorite ?
             <button
               className='card__button card__button_delete'
               type='button'
+              onClick={handleLikeClick}
             ></button> :
             <button
-              className={`card__button card__button_like ${card.liked ? 'card__button-like-active' : ''}`}
+              className={`card__button card__button_like ${liked ? 'card__button_like-active' : ''}`}
               type='button'
+              onClick={handleLikeClick}
             ></button>
         }
       </div>

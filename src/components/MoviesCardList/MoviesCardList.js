@@ -2,12 +2,12 @@ import React from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
-export default function MoviesCardList({ cards, favorite }) {
+export default function MoviesCardList({ movies, favorite, onLikeClick }) {
   return (
     <ul className='card-list'>
-      {cards.map(card => (
-        <li key={card.id}>
-          <MoviesCard card={card} favorite={favorite} />
+      {movies.map(movie => (
+        <li key={movie.movieId}>
+          <MoviesCard movie={movie} favorite={favorite} onLikeClick={onLikeClick} />
         </li>
       ))}
     </ul>

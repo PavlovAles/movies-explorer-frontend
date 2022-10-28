@@ -23,7 +23,7 @@
   }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 645px) {
   .promo__wrapper {
     height: 626px;
     padding: 179px 10px 40px;
@@ -50,7 +50,7 @@
   }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 645px) {
   .promo__heading {
     font-size: 31px;
     line-height: 1.26;

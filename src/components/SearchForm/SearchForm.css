@@ -73,7 +73,7 @@
   border-style: none;
   border-radius: 50%;
   background-color: #3456f3;
-  background-image: url(../../../images/search-icon_white.svg);
+  background-image: url(../../images/search-icon_white.svg);
   background-position: center;
   transition: opacity 0.2s linear;
 }
