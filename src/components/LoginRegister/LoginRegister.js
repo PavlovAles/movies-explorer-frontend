@@ -1,11 +1,18 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, Redirect, Route } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import LoginSigninForm from '../LoginRegisterForm/LoginRegisterForm';
 import './LoginRegister.css';
 
+export default function LoginRegister({ type, formName, title, submitText, error, loggedIn, onSubmit }) {
+  if (loggedIn) {
+    return (
+      <Route>
+        <Redirect to='/movies' />
+      </Route>
+    )
+  }
 
-export default function LoginRegister({ type, formName, title, submitText, error, onSubmit }) {
   return (
     <section className='register'>
       <div className='register__wrapper'>

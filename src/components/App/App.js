@@ -315,6 +315,7 @@ function App() {
                 title='Рады видеть!'
                 submitText='Войти'
                 error={loginError}
+                loggedIn={loggedIn}
                 onSubmit={handleLogin}
               />
             </Route>
@@ -325,6 +326,7 @@ function App() {
                 title='Добро пожаловать!'
                 submitText='Зарегистрироваться'
                 error={registerError}
+                loggedIn={loggedIn}
                 onSubmit={handleRegistration}
               />
             </Route>
