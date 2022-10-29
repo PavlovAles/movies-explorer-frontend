@@ -1,7 +1,27 @@
-# movies-explorer-frontend
+
+
+# Дипломный проект Я.Практикум
 
 Опубликованный проект: https://ales.movies.nomoredomains.icu/
 
-Макет в Figma: https://disk.yandex.kz/d/MvN3lEler3qB3g
+## Описание проекта
 
-Пул реквест из ветки level-3 в main: https://github.com/PavlovAles/movies-explorer-frontend/pull/2
+Выпускной проект курса веб-разработчик
+
+Что сделано:
+- написан backend ([репозиторий](https://github.com/PavlovAles/movies-explorer-api));
+- в соответствии с макетом сверстаны лэндинг, страницы выдачи с фильмами и формы;
+- реализованы запросы к стороннему api за списком фильмов;
+- регистрация и авторизации пользователей;
+- проверка токена авторизации из localstorage;
+- сохранение и удаление избранных фильмов;
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/97961953/198832966-fffc6eb3-fa00-47bb-a7e9-be003742496d.gif" alt="Анимация с базовым функционалом"></p>
+
+-------
+### Собрать и запустить проект локально
+
+##### `npm i` – установить зависимости проекта
+
+##### `npm start` – запуск сервера на http://localhost:3000/
